@@ -17,7 +17,7 @@
 - **Last completed action:** Completed central organization inventory migration to `.github/workstation-inventory/`. Resolved legacy Hetzner blocker note in `.github/AGENT_NOTES.md` (`NOTE-20260728-001`). Added central inventory note `NOTE-20260728-003`.
 - **Verification result:** PASSED — 100% Empirically Verified Operational & Central Governance Aligned.
 - **Next automatic action:** Complete. Maintaining native hourly inspection schedule.
-- **Latest control commit:** Will be updated after git push
+- **Latest control commit:** `ff0dbdc`
 
 ## Requests / blockers
 
