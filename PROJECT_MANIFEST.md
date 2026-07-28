@@ -1,14 +1,26 @@
-# Project Manifest: NetBird Infrastructure Deployment (`netbird-setup`)
+# Office Workstation Module Manifest: NetBird (`netbird-setup`)
 
+**Parent Program:** `Office Workstation`  
+**Module:** `NetBird Zero-Trust Network Infrastructure`  
 **Repository Name:** `KIF-Office-Workstation/netbird-setup`  
 **GitHub URL:** `https://github.com/KIF-Office-Workstation/netbird-setup.git`  
+**Governance:** [`GOVERNANCE.md`](GOVERNANCE.md)  
 **NetBird Release Alignment:** `v0.75.1` (Official Release API Verified)  
 **Independently Verified Pinned Container Images:**  
 - `netbirdio/netbird-server:0.75.1` (AGPLv3)
 - `netbirdio/dashboard:v2.90.7` (Independent Release Tag)
 - `traefik:v3.6`
+
 **Architecture:** Official Combined Container (`netbird-server` + Traefik v3)  
-**Licensing:** BSD 3-Clause (Client & Tooling) / AGPLv3 (Server Components)  
+**Licensing:** BSD 3-Clause (Client & Tooling) / AGPLv3 (Server Components)
+
+## Permanent Scope Statement
+
+This manifest covers only the NetBird module within the broader **Office Workstation** program.
+
+NetBird is not the identity or complete scope of Office Workstation. It is one documented component among current and future workstation tools, services, security controls, development environments, automation systems, and supporting infrastructure.
+
+The permanent parent identity and change restrictions are defined in `GOVERNANCE.md` and must be preserved by every future contributor and agent.
 
 ---
 
@@ -17,8 +29,9 @@
 ### Root Files
 | File Name | Purpose |
 | :--- | :--- |
-| **`README.md`** | Master documentation, quickstart, relative index |
-| **`PROJECT_MANIFEST.md`** | System inventory, environment specs, and component index |
+| **`README.md`** | Office Workstation identity, NetBird module overview, quickstart, and index |
+| **`GOVERNANCE.md`** | Permanent project charter, source-of-truth policy, and agent restrictions |
+| **`PROJECT_MANIFEST.md`** | NetBird module inventory, environment specifications, and component index |
 | **`INSTALL_LOG.md`** | Chronological shell execution logs and verification history |
 | **`CHANGELOG.md`** | Version history and infrastructure modification log |
 | **`LICENSE`** | BSD 3-Clause & AGPLv3 dual license specification |
