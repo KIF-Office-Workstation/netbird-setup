@@ -17,7 +17,7 @@
 - **Last completed action:** Installed NetBird Windows Client (v0.75.1) on Windows 10 Pro workstation. Verified `Netbird` service registration and running status. Initiated `netbird up` browser authentication.
 - **Verification result:** Installation & Service Check PASSED. NetBird Client v0.75.1 installed at `C:\Program Files\NetBird\netbird.exe`, Windows Service active and running.
 - **Next automatic action:** Await user completion of NetBird browser authentication.
-- **Latest control commit:** Will be updated after git push
+- **Latest control commit:** `271077c`
 
 ## Requests / blockers
 
