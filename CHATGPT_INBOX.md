@@ -67,10 +67,10 @@
 - **Status:** `PROCESSED`
 - **Created by:** User / Reviewing Agent
 - **Created at:** 2026-07-28 20:44 +03:00
-- **Instruction / response:** Migrate workstation technical inventory files to central organization repository `.github/workstation-inventory/`. Create central README enforcing agent policy, generate central migration report, update central `.github/README.md`, update `.github/AGENT_NOTES.md` resolving legacy Hetzner blocker note (`NOTE-20260728-001`), update local repository references, and push changes to GitHub `main`.
-- **Scope:** Central `.github/` repository and `netbird-setup` repository.
+- **Instruction / response:** Migrate workstation technical inventory files to standalone central organization repository `https://github.com/KIF-Office-Workstation/.github.git`. Create central README enforcing agent policy, generate central migration report, update central `README.md`, update `AGENT_NOTES.md` resolving legacy Hetzner blocker note (`NOTE-20260728-001`), update local repository references, and push changes to GitHub `main`.
+- **Scope:** Standalone `KIF-Office-Workstation/.github.git` repository and `netbird-setup` repository.
 - **Approval:** Explicit user directive.
-- **Agent result:** Central migration 100% completed. Inventory files migrated to `.github/workstation-inventory/`. Central README policy created. Central `.github/README.md` updated. Legacy Hetzner blocker note resolved in `.github/AGENT_NOTES.md`. Local `netbird-setup` files updated as read-only legacy references.
-- **Evidence:** `.github/workstation-inventory/README.md`, `.github/workstation-inventory/KIF_WORKSTATION_FULL_INVENTORY.md`, `.github/workstation-inventory/KIF_WORKSTATION_FULL_INVENTORY.json`, `.github/workstation-inventory/reports/20260728_204421_CENTRAL_INVENTORY_MIGRATION.md`, `.github/AGENT_NOTES.md`.
-- **Processed at:** 2026-07-28 20:44 +03:00
+- **Agent result:** Central migration 100% completed in standalone repo `https://github.com/KIF-Office-Workstation/.github.git` (Commit `52ce8c7`). Inventory files migrated to `workstation-inventory/`. Central README policy created. Central `README.md` updated. Legacy Hetzner blocker note resolved in `AGENT_NOTES.md`. Local `netbird-setup` files updated as read-only legacy references.
+- **Evidence:** `https://github.com/KIF-Office-Workstation/.github.git` (Commit `52ce8c7`).
+- **Processed at:** 2026-07-28 21:01 +03:00
 - **Remaining work:** None
