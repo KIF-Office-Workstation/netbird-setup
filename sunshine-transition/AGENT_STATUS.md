@@ -16,7 +16,7 @@
 - **Desktop Application:** Active
 - **Moonlight Client Pairing:** `READY_FOR_PAIRING` (Awaiting client device pairing code)
 - **NetBird IP:** `100.91.125.54`
-- **Latest control commit:** Will be updated after git push
+- **Latest control commit:** `1fd848c`
 
 ## Requests / blockers
 
