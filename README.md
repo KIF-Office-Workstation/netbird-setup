@@ -1,11 +1,36 @@
-# NetBird Production Infrastructure Deployment (`netbird-setup`)
+# Office Workstation — NetBird Module (`netbird-setup`)
 
 [![NetBird Version](https://img.shields.io/badge/NetBird-v0.75.1-blue.svg)](https://github.com/netbirdio/netbird/releases/tag/v0.75.1)
 [![Dashboard Version](https://img.shields.io/badge/Dashboard-v2.90.7-blue.svg)](https://hub.docker.com/r/netbirdio/dashboard/tags)
 [![License](https://img.shields.io/badge/License-BSD--3--Clause%20%2F%20AGPLv3-green.svg)](LICENSE)
 [![Repository](https://img.shields.io/badge/GitHub-KIF--Office--Workstation%2Fnetbird--setup-black.svg)](https://github.com/KIF-Office-Workstation/netbird-setup.git)
 
-This repository (`netbird-setup`) is the **source of truth** for configuring, maintaining, and deploying the NetBird Zero-Trust Mesh Network infrastructure aligned with official NetBird release `v0.75.1`.
+## Permanent Project Identity
+
+This repository belongs to the **Office Workstation** program.
+
+The Office Workstation program is the permanent operational source of truth for the office computer, its development environment, supporting infrastructure, installed tools, security controls, automation, maintenance procedures, and change history.
+
+**NetBird is one module of the Office Workstation ecosystem. It is not the identity or full scope of the project.**
+
+The repository must never be redefined around NetBird, Docker, WSL, HestiaCP, an AI agent, or any other individual technology. Every technology is treated as a replaceable, documented component under the permanent Office Workstation identity.
+
+See [GOVERNANCE.md](GOVERNANCE.md) for the binding project charter and change rules.
+
+## Repository Purpose
+
+Within the Office Workstation program, this repository currently documents the NetBird Zero-Trust networking module, including its configuration, deployment, validation, maintenance, recovery, and operational history aligned with NetBird release `v0.75.1`.
+
+All future workstation components must follow the same documentation standard:
+
+- installation reason and scope
+- prerequisites and dependencies
+- exact installation and configuration steps
+- security considerations
+- validation and health checks
+- upgrade and rollback procedures
+- removal procedure
+- operational reports and change history
 
 ---
 
@@ -21,8 +46,9 @@ This repository (`netbird-setup`) is the **source of truth** for configuring, ma
 
 ```text
 KIF-Office-Workstation/netbird-setup/
-├── README.md                          # Main repository overview & quickstart
-├── PROJECT_MANIFEST.md                # System manifest & component inventory
+├── README.md                          # Office Workstation identity + NetBird module overview
+├── GOVERNANCE.md                      # Permanent project charter and non-negotiable rules
+├── PROJECT_MANIFEST.md                # Module manifest & component inventory
 ├── INSTALL_LOG.md                     # Deployment execution log
 ├── CHANGELOG.md                       # Release notes & version history
 ├── LICENSE                            # Dual License Specification (BSD 3-Clause / AGPLv3)
@@ -52,7 +78,7 @@ KIF-Office-Workstation/netbird-setup/
 │   └── firewall_rules.conf            # Production port matrix (Least Privilege: 80, 443, 3478)
 ├── scripts/                           # Operational Automation Scripts
 │   ├── deploy_netbird_server.sh       # Safe server deployment script with inspection mode
-│   ├── install_netbird_client.sh       # Client installation script
+│   ├── install_netbird_client.sh      # Client installation script
 │   ├── backup_netbird.sh              # Automated backup generator
 │   ├── restore_netbird.sh             # Disaster recovery restoration script
 │   ├── health_check.sh                # System health diagnostic reporter
@@ -66,7 +92,7 @@ KIF-Office-Workstation/netbird-setup/
 
 ---
 
-## 🚀 Quickstart: Reproducing Deployment
+## 🚀 Quickstart: Reproducing the NetBird Module
 
 ### 1. Clone the Repository
 ```bash
@@ -103,6 +129,7 @@ sudo ./scripts/deploy_netbird_server.sh "netbird.example.com"
 
 ## 📚 Relative Documentation Index
 
+- [Project Governance & Permanent Charter](GOVERNANCE.md)
 - [Installation & Setup Guide](docs/installation_guide.md)
 - [Network Topology & Mesh Architecture](docs/network/network_topology.md)
 - [System Architecture Specification](docs/architecture/system_architecture.md)
