@@ -17,7 +17,7 @@
 - **Last completed action:** Executed routine review cycle. Verified `netbird status --detail`: Management & Signal Connected, NetBird IPv4 `100.91.125.54/16` assigned, 4/4 Relays Available, FQDN `kif.netbird.cloud` active.
 - **Verification result:** PASSED — 100% Empirically Verified Operational & Connected.
 - **Next automatic action:** Complete. Maintaining native hourly inspection schedule.
-- **Latest control commit:** Will be updated after git push
+- **Latest control commit:** `c4e5927`
 
 ## Requests / blockers
 
