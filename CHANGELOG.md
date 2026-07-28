@@ -7,16 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.1.0] - 2026-07-28
+## [1.2.0] - 2026-07-28
 
-### Changed
-- **Modern Architecture Migration:** Replaced legacy multi-container setup (`v0.28.0` management, signal, coturn) with the official combined `netbirdio/netbird-server` container architecture.
-- **Firewall Least Privilege:** Refactored UFW firewall rules to expose only ports `80/tcp`, `443/tcp`, `3478/udp`, and `51820/udp`. Closed direct public exposure of internal gRPC ports `10000` and `33073`.
-- **Safe Server Deployment Script:** Updated `scripts/deploy_netbird_server.sh` to eliminate unvalidated `curl | bash` execution, added installer inspection mode (`--inspect`), download validation, pre-modification state backup, and safe rollback error handling.
-- **Unified Server Configuration:** Replaced `config/config.yaml.example` with the official unified `netbird-server` schema including embedded STUN, Relay, Dex IdP, and SQLite/PostgreSQL datastore options.
-- **Documentation Normalization:** Replaced all absolute `file:///` URLs with GitHub relative markdown links across all documentation.
-- **Gitignore Hardening:** Extended `.gitignore` to cover `.env.*`, `acme.json`, `setup.env`, `docker-compose.override.yml`, certificates, and SQLite databases.
-- **Repository Remote URL Alignment:** Updated all documentation and configuration links to point to `https://github.com/KIF-Office-Workstation/netbird-setup.git`.
+### Fixed & Hardened
+- **Exact Tag Pinning:** Pinned container images to exact release tags: `netbirdio/netbird-server:0.75.1`, `netbirdio/dashboard:0.75.1`, and `traefik:v3.6`. Removed all `latest` tag references.
+- **Unified Configuration Schema:** Replaced legacy config keys in `config/config.yaml.example` with modern `server:` root schema matching official NetBird combined server `v0.75.1`.
+- **Public Firewall Port Cleanup:** Removed UDP port `51820` from public firewall rules matrix and `docker-compose.yml.example`, restricting open public ingress ports strictly to `80/tcp`, `443/tcp`, and `3478/udp`.
+- **Enhanced Deploy Script Inspection Mode:** Upgraded `scripts/deploy_netbird_server.sh` `--inspect` flag to download installer, record final redirected URL, compute SHA256 checksum, perform `bash -n` syntax check, output complete script content, and exit cleanly without executing.
+- **Mandatory Backup Enforcement:** Updated `scripts/deploy_netbird_server.sh` to abort deployment immediately if backup fails on existing deployment, requiring explicit `--force-without-backup` flag to override.
+- **Evidence-Based Validation Reporting:** Created comprehensive verification report in `reports/validation_report.md` categorizing results into `PASSED`, `FAILED`, `NOT EXECUTED`, and `BLOCKED BY ENVIRONMENT`.
+
+## [1.1.0] - 2026-07-28
+- Architecture migration to combined server model.
 
 ## [1.0.0] - 2026-07-28
 - Initial release of NetBird setup repository.

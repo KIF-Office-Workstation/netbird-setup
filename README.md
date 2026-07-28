@@ -1,10 +1,10 @@
 # NetBird Production Infrastructure Deployment (`netbird-setup`)
 
-[![NetBird Version](https://img.shields.io/badge/NetBird-v0.36.x%20%2F%20Latest%20Stable-blue.svg)](https://netbird.io)
+[![NetBird Version](https://img.shields.io/badge/NetBird-v0.75.1-blue.svg)](https://github.com/netbirdio/netbird/releases/tag/v0.75.1)
 [![License](https://img.shields.io/badge/License-BSD--3--Clause-green.svg)](LICENSE)
 [![Repository](https://img.shields.io/badge/GitHub-KIF--Office--Workstation%2Fnetbird--setup-black.svg)](https://github.com/KIF-Office-Workstation/netbird-setup.git)
 
-This repository (`netbird-setup`) is the **permanent source of truth** for deploying, configuring, maintaining, and recovering the NetBird Zero-Trust Mesh Network infrastructure.
+This repository (`netbird-setup`) is the **permanent source of truth** for deploying, configuring, maintaining, and recovering the NetBird Zero-Trust Mesh Network infrastructure aligned with official NetBird release `v0.75.1`.
 
 ---
 
@@ -36,13 +36,13 @@ KIF-Office-Workstation/netbird-setup/
 │   └── troubleshooting/
 │       └── troubleshooting_guide.md   # Troubleshooting & diagnostic workflows
 ├── config/                            # Sanitized Configuration Templates
-│   ├── docker-compose.yml.example     # Combined netbird-server docker-compose
-│   ├── config.yaml.example            # Unified server config schema
+│   ├── docker-compose.yml.example     # Combined netbird-server docker-compose (v0.75.1)
+│   ├── config.yaml.example            # Unified server config schema (v0.75.1)
 │   ├── dashboard.env.example          # Dashboard UI environment settings
 │   ├── netbird-client.cfg.example     # Client profile configuration sample
-│   └── firewall_rules.conf            # Production port matrix (Least Privilege)
+│   └── firewall_rules.conf            # Production port matrix (Least Privilege: 80, 443, 3478)
 ├── scripts/                           # Operational Automation Scripts
-│   ├── deploy_netbird_server.sh       # Safe server deployment script
+│   ├── deploy_netbird_server.sh       # Safe server deployment script with inspection mode
 │   ├── install_netbird_client.sh       # Client installation script
 │   ├── backup_netbird.sh              # Automated backup generator
 │   ├── restore_netbird.sh             # Disaster recovery restoration script
@@ -65,7 +65,7 @@ git clone https://github.com/KIF-Office-Workstation/netbird-setup.git
 cd netbird-setup
 ```
 
-### 2. Apply Host Firewall Hardening (Least Privilege)
+### 2. Apply Host Firewall Hardening (Least Privilege: 80/tcp, 443/tcp, 3478/udp)
 ```bash
 chmod +x ./docs/security/firewall_rules.sh
 sudo ./docs/security/firewall_rules.sh
@@ -77,7 +77,7 @@ chmod +x ./scripts/install_netbird_client.sh
 sudo ./scripts/install_netbird_client.sh "<YOUR_SETUP_KEY>" "https://netbird.example.com"
 ```
 
-### 4. Deploy NetBird Server Stack (Optional Self-Hosted)
+### 4. Deploy NetBird Server Stack (Official Combined Architecture v0.75.1)
 ```bash
 chmod +x ./scripts/deploy_netbird_server.sh
 sudo ./scripts/deploy_netbird_server.sh "netbird.example.com"
@@ -101,9 +101,6 @@ sudo ./scripts/health_check.sh
 > **No secrets, tokens, or private credentials are stored in this repository.**
 > All files under `config/` contain sanitized placeholders (`YOUR_SECRET_HERE`, `YOUR_SETUP_KEY`).
 > The repository `.gitignore` strictly blocks state files (`*.json`, `*.state`, `*.db`), `.env` files, and certificates.
-> 
-> **Repository Visibility Recommendation:**
-> Because this repository documents production infrastructure topology, domain schemas, and firewall port matrices, it is recommended to set the repository visibility to **Private** within the `KIF-Office-Workstation` organization settings if required by your organizational security policy.
 
 ---
 
@@ -130,3 +127,4 @@ sudo ./scripts/health_check.sh
 - [Upgrade & Maintenance Procedure](docs/maintenance/upgrade_procedure.md)
 - [Validation Test Suite](docs/validation_tests.md)
 - [Deployment Sign-off Report](reports/deployment_report.md)
+- [Verification Audit Report](reports/validation_report.md)

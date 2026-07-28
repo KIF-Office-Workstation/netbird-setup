@@ -1,13 +1,12 @@
 # NetBird Modern Combined Server Architecture (docker-compose.yml.example)
-# Production-ready stack: Traefik v3 Reverse Proxy, NetBird Server (Combined Management, Signal, STUN, Relay), Dashboard UI
+# Production-ready stack: Traefik v3 Reverse Proxy, NetBird Combined Server (Management, Signal, STUN, Relay), Dashboard UI
+# Official Release Alignment: NetBird v0.75.1 / Traefik v3.6
 # Official Documentation: https://docs.netbird.io/selfhosting/getting-started
-
-version: '3.8'
 
 services:
   # Traefik Reverse Proxy & Automated Let's Encrypt TLS
   traefik:
-    image: traefik:v3.1
+    image: traefik:v3.6
     container_name: netbird-traefik
     restart: unless-stopped
     command:
@@ -21,7 +20,7 @@ services:
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80/tcp"       # HTTP ACME Challenge & Redirect
-      - "443:443/tcp"     # HTTPS NetBird Dashboard, gRPC, & Relay
+      - "443:443/tcp"     # HTTPS NetBird Dashboard, gRPC Management/Signal, Relay WebSockets
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./letsencrypt:/letsencrypt"
@@ -30,7 +29,7 @@ services:
 
   # NetBird Dashboard (Admin Web UI)
   dashboard:
-    image: netbirdio/dashboard:latest
+    image: netbirdio/dashboard:0.75.1
     container_name: netbird-dashboard
     restart: unless-stopped
     env_file:
@@ -45,14 +44,12 @@ services:
       - netbird-net
 
   # NetBird Combined Server (Embedded Management, Signal, STUN, and Relay)
-  # Replaces legacy separate management, signal, and coturn containers
   netbird-server:
-    image: netbirdio/netbird-server:latest
+    image: netbirdio/netbird-server:0.75.1
     container_name: netbird-server
     restart: unless-stopped
     ports:
       - "3478:3478/udp"   # STUN/TURN Service for NAT Traversal
-      - "51820:51820/udp" # (Optional) WireGuard P2P Proxy
     volumes:
       - netbird_data:/var/lib/netbird
       - "./config.yaml:/etc/netbird/config.yaml"

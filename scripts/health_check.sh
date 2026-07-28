@@ -44,7 +44,7 @@ fi
 
 # 5. Firewall Open Ports Verification (Least Privilege)
 echo -e "\n[5/5] Firewall Port Status (UFW):"
-sudo ufw status verbose | grep -E "80/tcp|443/tcp|3478/udp|51820/udp" || echo "No explicit NetBird UFW rules found."
+sudo ufw status verbose | grep -E "80/tcp|443/tcp|3478/udp" || echo "No explicit NetBird UFW rules found."
 
 echo "======================================================================"
 echo "Health check complete."

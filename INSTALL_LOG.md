@@ -1,40 +1,42 @@
-# NetBird Complete Installation & Corrective Audit Execution Log
+# NetBird Installation & Corrective Verification Audit Log
 
 **Repository Name:** `KIF-Office-Workstation/netbird-setup`  
 **Execution Date:** 2026-07-28  
-**Audit Status:** Corrective Modernization & Validation Complete  
-**NetBird Server Image:** `netbirdio/netbird-server:latest`  
-**NetBird Client Release:** `v0.75.0` (Stable)  
+**Audit Status:** Evidence-Based Correction & Verification Complete  
+**NetBird Release Alignment:** `v0.75.1`  
+**Pinned Images:** `netbirdio/netbird-server:0.75.1` | `netbirdio/dashboard:0.75.1` | `traefik:v3.6`  
 
 ---
 
-## Chronological Audit & Correction Log
+## Chronological Audit & Evidence Execution Log
 
-### Step 1: Version Mismatch & Architecture Alignment
-- Replaced legacy multi-container configuration (`v0.28.0` management/signal) with the official combined `netbirdio/netbird-server` architecture.
-- Verified image tags: `netbirdio/netbird-server:latest` and `netbirdio/dashboard:latest`.
-
----
-
-### Step 2: Firewall Port Matrix Refactoring (Least Privilege)
-- Refactored public ingress rules: Restricted open public ports to `80/tcp`, `443/tcp`, `3478/udp`, and `51820/udp`.
-- Internal container ports `10000` and `33073` removed from public ingress rules as they are proxied internally via HTTP/2 cleartext (`h2c`) behind Traefik over HTTPS `443`.
+### Step 1: Version Mismatch & Tag Pinning
+- Replaced unpinned container tags (`latest`) with exact pinned tags: `netbirdio/netbird-server:0.75.1`, `netbirdio/dashboard:0.75.1`, and `traefik:v3.6`.
+- Verified tag availability on official GitHub release assets and Docker Hub.
 
 ---
 
-### Step 3: Script Validation & Security Enhancement
-- Updated `scripts/deploy_netbird_server.sh` to prevent unvalidated `curl | bash` execution.
-- Added `--inspect` dry-run mode, pre-execution backup trigger (`scripts/backup_netbird.sh`), non-interactive domain handling, and fail-safe rollback handlers.
-- Validated all bash scripts syntax using `bash -n`.
+### Step 2: Firewall Port Matrix Cleanup
+- Restricted public open ingress ports strictly to `80/tcp`, `443/tcp`, and `3478/udp`.
+- Removed UDP port `51820` from public ingress firewall rules and `docker-compose.yml.example`.
 
 ---
 
-### Step 4: Documentation Link Normalization
-- Converted all absolute `file:///` URLs across documentation into valid GitHub relative markdown links (`[text](docs/...)`).
-- Updated repository remote URL to `https://github.com/KIF-Office-Workstation/netbird-setup.git`.
+### Step 3: Server Configuration Schema Modernization
+- Replaced legacy configuration keys (`StunTurn`, `Signal`, `Datastore`, `HttpConfig`, `PKI`, `Idp`, `Relay`) in `config/config.yaml.example` with modern official `server:` root schema.
 
 ---
 
-### Step 5: Gitignore & Secret Sanitization
-- Extended `.gitignore` to block `.env.*`, `acme.json`, `setup.env`, `*.db`, `*.sqlite`, `*.pem`, `*.key`, `letsencrypt/`, and backup archives.
-- Confirmed zero hardcoded secrets or setup keys in repository working tree.
+### Step 4: Deployment Script Safety & Inspection Mode
+- Updated `scripts/deploy_netbird_server.sh`:
+  - `--inspect` mode resolves redirected download URL, calculates SHA256, outputs release info, performs `bash -n` syntax check, prints complete script contents, and exits without executing.
+  - Enforced mandatory pre-deployment backup check when existing deployment is detected; aborts on backup failure unless `--force-without-backup` is explicitly passed.
+
+---
+
+### Step 5: Evidence-Based Verification Execution
+- Executed `docker compose config` validation on `config/docker-compose.yml.example`: PASSED (Clean output, 0 errors).
+- Executed `bash -n` syntax validation on all 7 shell scripts: PASSED (0 errors).
+- Executed Markdown relative link validator: PASSED (0 broken links).
+- Executed Git history secret scan: CLEAN (0 secrets found).
+- Executed backup and restore empirical test in isolated temporary environment: PASSED (Archive created, configs & DB included, extracted and verified readable).
