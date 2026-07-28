@@ -1,4 +1,29 @@
-BSD 3-Clause License
+# NetBird Project Licensing Overview
+
+This deployment repository (`KIF-Office-Workstation/netbird-setup`) provides configuration templates, automation scripts, and documentation for deploying NetBird infrastructure.
+
+---
+
+## Upstream Component Licenses
+
+NetBird software components are distributed under a dual open-source licensing model:
+
+1. **Client & General Core Components (BSD 3-Clause License)**
+   - The NetBird client agent (`netbird`), CLI, desktop UI, and core library components are licensed under the **BSD 3-Clause License**.
+
+2. **Server Components & Combined Container (GNU Affero General Public License v3.0 - AGPLv3)**
+   - The NetBird server components including `management/`, `signal/`, `relay/`, and the combined server (`netbirdio/netbird-server`) are licensed under **AGPLv3**.
+
+---
+
+## Open Source & Self-Hosted Use
+
+- Self-hosted deployment and operational use of the combined NetBird server architecture remain **100% free and open-source** under the AGPLv3 license.
+- Infrastructure automation scripts and configuration templates in this repository are provided under the BSD 3-Clause License.
+
+---
+
+## BSD 3-Clause License (Deployment Automation Code)
 
 Copyright (c) 2026, KIF Office Workstation / NetBird Infrastructure Deployment
 All rights reserved.

@@ -2,10 +2,13 @@
 
 **Repository Name:** `KIF-Office-Workstation/netbird-setup`  
 **GitHub URL:** `https://github.com/KIF-Office-Workstation/netbird-setup.git`  
-**NetBird Pinned Release Alignment:** `v0.75.1`  
-**Pinned Container Images:** `netbirdio/netbird-server:0.75.1` | `netbirdio/dashboard:0.75.1` | `traefik:v3.6`  
+**NetBird Release Alignment:** `v0.75.1` (Official Release API Verified)  
+**Independently Verified Pinned Container Images:**  
+- `netbirdio/netbird-server:0.75.1` (AGPLv3)
+- `netbirdio/dashboard:v2.90.7` (Independent Release Tag)
+- `traefik:v3.6`
 **Architecture:** Official Combined Container (`netbird-server` + Traefik v3)  
-**License:** BSD 3-Clause  
+**Licensing:** BSD 3-Clause (Client & Tooling) / AGPLv3 (Server Components)  
 
 ---
 
@@ -18,7 +21,7 @@
 | **`PROJECT_MANIFEST.md`** | System inventory, environment specs, and component index |
 | **`INSTALL_LOG.md`** | Chronological shell execution logs and verification history |
 | **`CHANGELOG.md`** | Version history and infrastructure modification log |
-| **`LICENSE`** | BSD 3-Clause Open Source License |
+| **`LICENSE`** | BSD 3-Clause & AGPLv3 dual license specification |
 | **`.gitignore`** | Strict exclusion rules for secrets, DBs, certs, and state files |
 
 ---

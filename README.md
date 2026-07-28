@@ -1,10 +1,19 @@
 # NetBird Production Infrastructure Deployment (`netbird-setup`)
 
 [![NetBird Version](https://img.shields.io/badge/NetBird-v0.75.1-blue.svg)](https://github.com/netbirdio/netbird/releases/tag/v0.75.1)
-[![License](https://img.shields.io/badge/License-BSD--3--Clause-green.svg)](LICENSE)
+[![Dashboard Version](https://img.shields.io/badge/Dashboard-v2.90.7-blue.svg)](https://hub.docker.com/r/netbirdio/dashboard/tags)
+[![License](https://img.shields.io/badge/License-BSD--3--Clause%20%2F%20AGPLv3-green.svg)](LICENSE)
 [![Repository](https://img.shields.io/badge/GitHub-KIF--Office--Workstation%2Fnetbird--setup-black.svg)](https://github.com/KIF-Office-Workstation/netbird-setup.git)
 
-This repository (`netbird-setup`) is the **permanent source of truth** for deploying, configuring, maintaining, and recovering the NetBird Zero-Trust Mesh Network infrastructure aligned with official NetBird release `v0.75.1`.
+This repository (`netbird-setup`) is the **source of truth** for configuring, maintaining, and deploying the NetBird Zero-Trust Mesh Network infrastructure aligned with official NetBird release `v0.75.1`.
+
+---
+
+## ⚖️ Licensing Model
+
+- **Client & Deployment Tooling:** BSD 3-Clause License.
+- **Server Stack (`netbird-server` combined management, signal, relay):** GNU Affero General Public License v3.0 (AGPLv3).
+- **Self-Hosted Use:** 100% free and open-source for self-hosted operational deployments under the respective licenses. See [LICENSE](LICENSE) for details.
 
 ---
 
@@ -16,7 +25,7 @@ KIF-Office-Workstation/netbird-setup/
 ├── PROJECT_MANIFEST.md                # System manifest & component inventory
 ├── INSTALL_LOG.md                     # Deployment execution log
 ├── CHANGELOG.md                       # Release notes & version history
-├── LICENSE                            # BSD 3-Clause License
+├── LICENSE                            # Dual License Specification (BSD 3-Clause / AGPLv3)
 ├── .gitignore                         # Secret, state, & database exclusion rules
 ├── docs/                              # Technical Documentation Suite
 │   ├── installation_guide.md          # Server & Client setup guide
@@ -36,7 +45,7 @@ KIF-Office-Workstation/netbird-setup/
 │   └── troubleshooting/
 │       └── troubleshooting_guide.md   # Troubleshooting & diagnostic workflows
 ├── config/                            # Sanitized Configuration Templates
-│   ├── docker-compose.yml.example     # Combined netbird-server docker-compose (v0.75.1)
+│   ├── docker-compose.yml.example     # Combined netbird-server docker-compose (v0.75.1 / v2.90.7)
 │   ├── config.yaml.example            # Unified server config schema (v0.75.1)
 │   ├── dashboard.env.example          # Dashboard UI environment settings
 │   ├── netbird-client.cfg.example     # Client profile configuration sample
@@ -71,36 +80,12 @@ chmod +x ./docs/security/firewall_rules.sh
 sudo ./docs/security/firewall_rules.sh
 ```
 
-### 3. Deploy NetBird Client Agent
-```bash
-chmod +x ./scripts/install_netbird_client.sh
-sudo ./scripts/install_netbird_client.sh "<YOUR_SETUP_KEY>" "https://netbird.example.com"
-```
-
-### 4. Deploy NetBird Server Stack (Official Combined Architecture v0.75.1)
+### 3. Inspect & Run Server Stack Deployment
 ```bash
 chmod +x ./scripts/deploy_netbird_server.sh
+./scripts/deploy_netbird_server.sh --inspect
 sudo ./scripts/deploy_netbird_server.sh "netbird.example.com"
 ```
-*To inspect the installer before running:*
-```bash
-./scripts/deploy_netbird_server.sh --inspect
-```
-
-### 5. Validate Health & Mesh Connectivity
-```bash
-chmod +x ./scripts/health_check.sh ./scripts/test_mesh_connectivity.sh
-sudo ./scripts/health_check.sh
-```
-
----
-
-## 🔒 Security & Public Repository Recommendation
-
-> [!IMPORTANT]
-> **No secrets, tokens, or private credentials are stored in this repository.**
-> All files under `config/` contain sanitized placeholders (`YOUR_SECRET_HERE`, `YOUR_SETUP_KEY`).
-> The repository `.gitignore` strictly blocks state files (`*.json`, `*.state`, `*.db`), `.env` files, and certificates.
 
 ---
 

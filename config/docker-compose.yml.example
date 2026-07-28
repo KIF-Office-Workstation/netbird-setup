@@ -1,6 +1,6 @@
 # NetBird Modern Combined Server Architecture (docker-compose.yml.example)
 # Production-ready stack: Traefik v3 Reverse Proxy, NetBird Combined Server (Management, Signal, STUN, Relay), Dashboard UI
-# Official Release Alignment: NetBird v0.75.1 / Traefik v3.6
+# Official Release Alignment: NetBird Release v0.75.1 / Dashboard v2.90.7 / Traefik v3.6
 # Official Documentation: https://docs.netbird.io/selfhosting/getting-started
 
 services:
@@ -27,9 +27,9 @@ services:
     networks:
       - netbird-net
 
-  # NetBird Dashboard (Admin Web UI)
+  # NetBird Dashboard (Admin Web UI - Independently Versioned Release)
   dashboard:
-    image: netbirdio/dashboard:0.75.1
+    image: netbirdio/dashboard:v2.90.7
     container_name: netbird-dashboard
     restart: unless-stopped
     env_file:
@@ -43,7 +43,7 @@ services:
     networks:
       - netbird-net
 
-  # NetBird Combined Server (Embedded Management, Signal, STUN, and Relay)
+  # NetBird Combined Server (Embedded Management, Signal, STUN, and Relay - AGPLv3)
   netbird-server:
     image: netbirdio/netbird-server:0.75.1
     container_name: netbird-server
