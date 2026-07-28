@@ -1,61 +1,42 @@
-# NetBird Backup, Recovery & Disaster Recovery Procedure
+# NetBird Maintenance, Backup & Recovery Procedure
 
-This guide details automated backup schedules, disaster recovery plans, state file management, and step-by-step restoration procedures for NetBird.
+This guide details automated state backups, disaster recovery, database restoration, and server replacement procedures.
 
 ---
 
-## 1. Important Data Paths
+## 1. Data Inventory & State Locations
 
-| Component | Path | Description |
+| Data Component | Location | Description |
 | :--- | :--- | :--- |
-| **Management SQLite DB** | `/var/lib/netbird/management.db` | Contains peers, setup keys, network routes, ACL rules |
-| **Management PKI Certs** | `/var/lib/netbird/management.crt` / `.key` | Private key & certificate authority for gRPC SSL |
-| **Signal State** | `/var/lib/netbird/signal.state` | Signal service runtime data |
-| **Client Configuration** | `/var/lib/netbird/default.json` | Local WireGuard private key & server profile |
+| **NetBird Datastore** | `/var/lib/netbird/management.db` | Embedded SQLite DB containing peers, keys, & ACL rules |
+| **Dex IdP Datastore** | `/var/lib/netbird/dex.db` | OIDC user sessions and authentication data |
+| **Server Configuration** | `./config.yaml` | Server configuration settings |
+| **TLS Certificates** | `./letsencrypt/acme.json` | ACME TLS certificates issued by Traefik |
 
 ---
 
-## 2. Automated Backup Strategy
+## 2. Automated Backup Execution
 
-Run the backup script via root crontab on a daily schedule:
-
-```cron
-# NetBird Daily Automated Backup at 03:00 UTC
-0 3 * * * /bin/bash /path/to/netbird-setup/scripts/backup_netbird.sh >> /var/log/netbird_backup.log 2>&1
-```
-
----
-
-## 3. Manual Backup Procedure
-
+Generate a timestamped backup archive using:
 ```bash
 chmod +x ./scripts/backup_netbird.sh
 sudo ./scripts/backup_netbird.sh
 ```
-
-Archive output location: `/var/backups/netbird/netbird_backup_YYYYMMDD_HHMMSS.tar.gz`.
+Tarball destination: `/var/backups/netbird/netbird_backup_YYYYMMDD_HHMMSS.tar.gz`.
 
 ---
 
-## 4. Disaster Recovery & Machine Replacement
+## 3. Disaster Recovery & Restoration
 
-To reproduce the deployment on a fresh server instance:
+To restore NetBird from a backup archive:
 
-1. **Provision Fresh Machine:**
-   Install Ubuntu 22.04 LTS, Docker, and Git.
+```bash
+chmod +x ./scripts/restore_netbird.sh
+sudo ./scripts/restore_netbird.sh /var/backups/netbird/netbird_backup_YYYYMMDD_HHMMSS.tar.gz
+```
 
-2. **Clone Source of Truth Repository:**
-   ```bash
-   git clone https://github.com/your-org/netbird-setup.git
-   cd netbird-setup
-   ```
-
-3. **Restore Backup Archive:**
-   ```bash
-   sudo ./scripts/restore_netbird.sh /path/to/netbird_backup_archive.tar.gz
-   ```
-
-4. **Verify Restored Service:**
-   ```bash
-   sudo ./scripts/health_check.sh
-   ```
+Verify service status after restoration:
+```bash
+chmod +x ./scripts/health_check.sh
+sudo ./scripts/health_check.sh
+```

@@ -1,38 +1,51 @@
-# NetBird Management Service Configuration (config.yaml.example)
-# Production configuration schema for NetBird Management
+# NetBird Unified Server Configuration (config.yaml.example)
+# Schema for modern combined netbird-server container architecture
+# Official Reference: https://docs.netbird.io/selfhosting/getting-started
 
+# STUN & TURN Relay Configuration
 StunTurn:
-  # STUN & TURN Relay service settings for NAT Traversal
   TURNDomain: netbird.example.com
-  TURNMinPort: 49152
-  TURNMaxPort: 65535
-  CredentialsTTL: 86400s
   Secret: "YOUR_COTURN_SHARED_SECRET_PLACEHOLDER"
   STUNPorts:
     - 3478
   TURNPorts:
     - 3478
 
+# Embedded Signal Service Configuration
 Signal:
-  # NetBird Signal Service gRPC Endpoint
   Protocol: https
   URI: netbird.example.com:443
 
+# Datastore Configuration (Embedded SQLite or PostgreSQL)
 Datastore:
-  # Embedded SQLite datastore (or PostgreSQL connection string for HA cluster)
   Engine: sqlite
   File: /var/lib/netbird/management.db
 
+# HTTP API & Management Service Endpoint Configuration
 HttpConfig:
-  # API & Management listener endpoints
-  Address: 0.0.0.0:33073
-  AuthIssuer: "https://netbird.example.com/auth"
+  Address: 0.0.0.0:80
+  AuthIssuer: "https://netbird.example.com/oauth2"
   Audience: "netbird-api"
 
+# Internal PKI Certificate Configuration
 PKI:
-  # Internal PKI for peer certificates
   CertFile: /var/lib/netbird/management.crt
   KeyFile: /var/lib/netbird/management.key
 
+# Embedded Identity Provider (Dex) Configuration
+Idp:
+  Dex:
+    Issuer: "https://netbird.example.com/oauth2"
+    Storage:
+      Type: sqlite3
+      File: /var/lib/netbird/dex.db
+
+# Relay Service Settings
+Relay:
+  Address: 0.0.0.0:80
+  ExposedAddress: "https://netbird.example.com"
+  Secret: "YOUR_RELAY_AUTH_SECRET_PLACEHOLDER"
+
+# Logging Settings
 LogFile: console
 LogLevel: info

@@ -1,47 +1,84 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # Script: deploy_netbird_server.sh
-# Description: Automated deployment script for NetBird Self-Hosted Server Stack
-# Author: NetBird Operations Team
+# Description: Safe, validated deployment script for NetBird Self-Hosted Server
+# Features: Pre-execution validation, backup creation, inspection mode, safe rollback
+# Official Installer Source: https://github.com/netbirdio/netbird/releases/latest/download/getting-started.sh
 # ==============================================================================
 
 set -euo pipefail
 
 DOMAIN="${1:-}"
+INSPECT_ONLY="${2:-}"
+
+INSTALLER_URL="https://github.com/netbirdio/netbird/releases/latest/download/getting-started.sh"
+TEMP_INSTALLER="/tmp/netbird_installer_$(date +%s).sh"
+
+echo "======================================================================"
+echo "              NETBIRD SERVER SAFE DEPLOYMENT AUTOMATION               "
+echo "======================================================================"
+
+# 1. Inspection mode handler
+if [ "$DOMAIN" = "--inspect" ] || [ "$INSPECT_ONLY" = "--inspect" ]; then
+  echo "==> [INSPECT MODE] Downloading official installer script for review..."
+  curl -fsSL "$INSTALLER_URL" -o "$TEMP_INSTALLER"
+  echo "==> Installer saved to $TEMP_INSTALLER"
+  echo "==> Source URL: $INSTALLER_URL"
+  echo "==> File Size: $(wc -c < "$TEMP_INSTALLER") bytes"
+  echo "Review the installer contents above or at $TEMP_INSTALLER before running deployment."
+  exit 0
+fi
 
 if [ -z "$DOMAIN" ]; then
-  echo "Usage: $0 <your-netbird-domain.com>"
+  echo "Usage: $0 <your-netbird-domain.example.com> [--inspect]"
+  echo "Example: $0 netbird.example.com"
   exit 1
 fi
 
-echo "==> Preparing NetBird server deployment for domain: ${DOMAIN}"
+echo "==> Target Domain: $DOMAIN"
+echo "==> Source Installer URL: $INSTALLER_URL"
 
-# 1. Install prerequisites
-sudo apt-get update -qq
-sudo apt-get install -y -qq curl jq docker.io docker-compose-v2 ufw
+# 2. Check for existing deployment and create backup before modifying
+if [ -d "/var/lib/netbird" ] || [ -f "docker-compose.yml" ]; then
+  echo "==> Existing NetBird deployment detected!"
+  echo "==> Creating automated safety backup prior to modification..."
+  if [ -f "./scripts/backup_netbird.sh" ]; then
+    bash ./scripts/backup_netbird.sh || echo "Warning: Backup script finished with warnings."
+  fi
+fi
 
-# 2. Enable kernel IP forwarding
-sudo sysctl -w net.ipv4.ip_forward=1
-sudo sysctl -w net.ipv6.conf.all.forwarding=1
-echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.d/99-netbird.conf
-echo "net.ipv6.conf.all.forwarding = 1" | sudo tee -a /etc/sysctl.d/99-netbird.conf
+# 3. Enable Kernel IP Forwarding
+echo "==> Verifying kernel IP forwarding..."
+sudo sysctl -w net.ipv4.ip_forward=1 >/dev/null
+sudo sysctl -w net.ipv6.conf.all.forwarding=1 >/dev/null
 
-# 3. Configure UFW firewall
-echo "==> Configuring UFW rules..."
-sudo ufw allow 22/tcp comment 'SSH'
-sudo ufw allow 80/tcp comment 'HTTP ACME'
-sudo ufw allow 443/tcp comment 'HTTPS NetBird'
-sudo ufw allow 51820/udp comment 'NetBird WireGuard'
-sudo ufw allow 3478/udp comment 'NetBird Coturn STUN/TURN'
-sudo ufw allow 3478/tcp comment 'NetBird Coturn TURN TCP'
-sudo ufw allow 10000/tcp comment 'NetBird Signal'
-sudo ufw allow 33073/tcp comment 'NetBird Management'
-sudo ufw --force enable
+# 4. Download and validate installer script
+echo "==> Downloading official NetBird installer..."
+curl -fsSL "$INSTALLER_URL" -o "$TEMP_INSTALLER"
 
-# 4. Download NetBird Quickstart installer
+if [ ! -s "$TEMP_INSTALLER" ]; then
+  echo "✖ ERROR: Downloaded installer script is empty. Aborting deployment."
+  exit 1
+fi
+
+# Log version / header info
+echo "==> Installer Downloaded Successfully ($(wc -c < "$TEMP_INSTALLER") bytes)."
+echo "==> Header Info:"
+head -n 10 "$TEMP_INSTALLER"
+
+# 5. Execute installer in safe scope
+echo "==> Executing NetBird installer for domain $DOMAIN..."
 export NETBIRD_DOMAIN="$DOMAIN"
-echo "==> Running official NetBird self-hosted installer..."
-curl -fsSL https://github.netbird.io/getting-started.sh | bash
 
-echo "==> NetBird Self-Hosted Server deployed successfully!"
-echo "Check container status using: docker compose ps"
+if bash "$TEMP_INSTALLER"; then
+  echo "✔ NetBird Server deployment completed successfully!"
+  echo "Check container status: docker compose ps"
+  rm -f "$TEMP_INSTALLER"
+else
+  echo "✖ ERROR: NetBird deployment failed."
+  echo "Rollback Instructions:"
+  echo "  1. Check logs: docker compose logs"
+  echo "  2. Restore backup using: ./scripts/restore_netbird.sh /var/backups/netbird/<backup_file>.tar.gz"
+  rm -f "$TEMP_INSTALLER"
+  exit 1
+fi

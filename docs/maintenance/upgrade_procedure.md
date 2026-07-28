@@ -1,85 +1,53 @@
-# NetBird Upgrade & Maintenance Procedure
+# NetBird Server & Client Upgrade & Rollback Procedure
 
-This document provides step-by-step procedures for safely upgrading NetBird self-hosted control plane servers and client nodes with zero downtime and roll-back safety.
+This document provides step-by-step instructions for upgrading the NetBird combined server stack and client nodes, including safety rollback steps.
 
 ---
 
-## 1. Upgrade Pre-flight Checklist
+## 1. Pre-Upgrade Safety Steps
 
-- [ ] Take a full system and state backup using `./scripts/backup_netbird.sh`.
-- [ ] Review official NetBird Release Notes on GitHub for breaking changes.
-- [ ] Ensure non-disruptive maintenance window.
+1. Create a full backup of current state:
+   ```bash
+   sudo ./scripts/backup_netbird.sh
+   ```
+2. Inspect current container status:
+   ```bash
+   docker compose ps
+   ```
 
 ---
 
 ## 2. Server Stack Upgrade (Docker Compose)
 
-To upgrade the NetBird self-hosted server components (Management, Signal, Dashboard, Coturn):
-
-1. **Navigate to Deployment Directory:**
-   ```bash
-   cd ~/netbird
-   ```
-
-2. **Run Automated Backup:**
-   ```bash
-   ./scripts/backup_netbird.sh
-   ```
-
-3. **Pull Latest Stable Images:**
+1. Pull latest stable container images:
    ```bash
    docker compose pull
    ```
-
-4. **Restart Stack with Updated Containers:**
+2. Recreate containers with updated images:
    ```bash
    docker compose up -d --remove-orphans
    ```
-
-5. **Verify Stack Health:**
+3. Verify container health & logs:
    ```bash
    docker compose ps
-   docker compose logs --tail=50 -f management
+   docker compose logs -f --tail=50 netbird-server
    ```
 
 ---
 
-## 3. Client Node Upgrade
-
-### A. Linux Node (Debian / Ubuntu)
-```bash
-sudo apt-get update
-sudo apt-get --only-upgrade install netbird
-```
-
-Verify service restart & connection:
-```bash
-sudo systemctl status netbird
-sudo netbird status --detail
-```
-
-### B. Windows Node
-```powershell
-winget upgrade netbird.netbird
-```
-
----
-
-## 4. Rollback Procedure
+## 3. Rollback Procedure
 
 If issues arise following an upgrade:
 
-1. **Stop Containers / Service:**
+1. Stop running containers:
    ```bash
-   cd ~/netbird && docker compose down
+   docker compose down
    ```
-
-2. **Restore Previous Backup State:**
+2. Restore previous state backup:
    ```bash
-   ./scripts/restore_netbird.sh /var/backups/netbird/netbird_backup_PREVIOUS.tar.gz
+   sudo ./scripts/restore_netbird.sh /var/backups/netbird/netbird_backup_PREVIOUS.tar.gz
    ```
-
-3. **Verify Restored Operation:**
+3. Restart containers:
    ```bash
-   sudo netbird status --detail
+   docker compose up -d
    ```

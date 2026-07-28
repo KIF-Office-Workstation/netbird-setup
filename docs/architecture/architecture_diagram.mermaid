@@ -1,29 +1,34 @@
 graph TD
-    subgraph Control_Plane["NetBird Control Plane (Server Stack)"]
-        Dashboard["Dashboard UI (Port 80/443)"]
-        Management["Management Service (Port 33073 gRPC)"]
-        Signal["Signal Service (Port 10000 gRPC)"]
-        Coturn["Coturn STUN/TURN (Port 3478 UDP/TCP)"]
+    subgraph Reverse_Proxy["Traefik Reverse Proxy (Ports 80/tcp, 443/tcp)"]
+        HTTP["HTTP (80) ACME Challenge"]
+        HTTPS["HTTPS (443) TLS Termination"]
     end
 
-    subgraph Overlay_Mesh["NetBird WireGuard Overlay Mesh (100.64.0.0/16)"]
-        NodeA["Linux Server Node (100.64.0.1)"]
-        NodeB["WSL / Client Node B (100.64.0.2)"]
-        NodeC["Workstation Node C (100.64.0.3)"]
+    subgraph NetBird_Server_Stack["NetBird Self-Hosted Server Stack"]
+        Dashboard["Dashboard UI Container (netbird-dashboard:80)"]
+        ServerContainer["NetBird Combined Server (netbird-server)"]
+        
+        subgraph Embedded_Services["Embedded Services inside netbird-server"]
+            Management["Embedded Management Service"]
+            Signal["Embedded Signal Service"]
+            Relay["Embedded Relay Engine (WebSockets/QUIC)"]
+            STUN["Embedded STUN (3478/udp)"]
+            Dex["Embedded Dex IdP (/oauth2)"]
+        end
     end
 
-    Dashboard -->|API Control| Management
-    NodeA -->|Register / Sync| Management
-    NodeB -->|Register / Sync| Management
-    NodeC -->|Register / Sync| Management
+    subgraph Mesh_Peers["NetBird WireGuard Overlay Peers (100.64.0.0/16)"]
+        PeerA["Node A (100.64.0.1)"]
+        PeerB["Node B (100.64.0.2)"]
+    end
 
-    NodeA -->|Signal Exchange| Signal
-    NodeB -->|Signal Exchange| Signal
-    NodeC -->|Signal Exchange| Signal
+    HTTPS -->|/*| Dashboard
+    HTTPS -->|/api, /oauth2, /relay, /ws-proxy| ServerContainer
+    HTTPS -->|/signalexchange.*, /management.*| ServerContainer
 
-    NodeA <-->|Direct WireGuard P2P (UDP 51820)| NodeB
-    NodeB <-->|Direct WireGuard P2P (UDP 51820)| NodeC
-    NodeA <-->|Direct WireGuard P2P (UDP 51820)| NodeC
+    PeerA -->|gRPC Signal & Mgmt (443)| HTTPS
+    PeerB -->|gRPC Signal & Mgmt (443)| HTTPS
 
-    NodeA -.->|Fallback Relay (UDP 3478)| Coturn
-    NodeB -.->|Fallback Relay (UDP 3478)| Coturn
+    PeerA <-->|Direct P2P WireGuard (51820/udp)| PeerB
+    PeerA -.->|Relay Fallback over WebSockets (443/tcp)| Relay
+    PeerB -.->|Relay Fallback over WebSockets (443/tcp)| Relay

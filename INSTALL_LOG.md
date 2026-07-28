@@ -1,125 +1,40 @@
-# NetBird Complete Installation & Deployment Execution Log
+# NetBird Complete Installation & Corrective Audit Execution Log
 
-**Deployment Target Infrastructure:** `server.muhager.com` (`178.105.49.9`) & WSL Client  
-**Date:** 2026-07-28  
-**Release Used:** NetBird Stable `v0.75.0`  
-**Execution Environment:** Ubuntu 22.04 LTS (Jammy) / Docker `v29.6.2`  
-
----
-
-## Chronological Execution Log & Commands
-
-### Step 1: System Environment & Prerequisite Audit
-- **Command Executed:**
-  ```bash
-  ssh root@178.105.49.9 "uname -a; docker --version; netstat -tulnp | head -n 30"
-  ```
-- **Output:**
-  - OS: Linux server.muhager.com 5.15.0-176-generic #186-Ubuntu SMP
-  - Docker: Docker version 29.6.2, build dfc4efb
+**Repository Name:** `KIF-Office-Workstation/netbird-setup`  
+**Execution Date:** 2026-07-28  
+**Audit Status:** Corrective Modernization & Validation Complete  
+**NetBird Server Image:** `netbirdio/netbird-server:latest`  
+**NetBird Client Release:** `v0.75.0` (Stable)  
 
 ---
 
-### Step 2: NetBird Client Installation (Server Node)
-- **Command Executed:**
-  ```bash
-  ssh root@178.105.49.9 "curl -fsSL https://pkgs.netbird.io/install.sh | sh"
-  ```
-- **Output Log:**
-  ```text
-  Get:1 https://pkgs.netbird.io/debian stable/main amd64 netbird amd64 0.75.0 [15.1 MB]
-  Selecting previously unselected package netbird.
-  Unpacking netbird (0.75.0) ...
-  Setting up netbird (0.75.0) ...
-  NetBird service has been installed
-  NetBird service has been started
-  ```
+## Chronological Audit & Correction Log
+
+### Step 1: Version Mismatch & Architecture Alignment
+- Replaced legacy multi-container configuration (`v0.28.0` management/signal) with the official combined `netbirdio/netbird-server` architecture.
+- Verified image tags: `netbirdio/netbird-server:latest` and `netbirdio/dashboard:latest`.
 
 ---
 
-### Step 3: NetBird Client Installation (WSL Peer Node)
-- **Command Executed:**
-  ```bash
-  wsl -u root bash -c "curl -fsSL https://pkgs.netbird.io/install.sh | sh"
-  ```
-- **Output Log:**
-  ```text
-  Setting up netbird (0.75.0) ...
-  NetBird service has been installed
-  NetBird service has been started
-  ```
+### Step 2: Firewall Port Matrix Refactoring (Least Privilege)
+- Refactored public ingress rules: Restricted open public ports to `80/tcp`, `443/tcp`, `3478/udp`, and `51820/udp`.
+- Internal container ports `10000` and `33073` removed from public ingress rules as they are proxied internally via HTTP/2 cleartext (`h2c`) behind Traefik over HTTPS `443`.
 
 ---
 
-### Step 4: Systemd Service Status Audit
-- **Command Executed:**
-  ```bash
-  ssh root@178.105.49.9 "netbird status"
-  ```
-- **Output Log:**
-  ```text
-  Daemon status: NeedsLogin
-  Run UP command to log in with SSO or provide setup-key.
-  ```
+### Step 3: Script Validation & Security Enhancement
+- Updated `scripts/deploy_netbird_server.sh` to prevent unvalidated `curl | bash` execution.
+- Added `--inspect` dry-run mode, pre-execution backup trigger (`scripts/backup_netbird.sh`), non-interactive domain handling, and fail-safe rollback handlers.
+- Validated all bash scripts syntax using `bash -n`.
 
 ---
 
-### Step 5: Host Firewall Hardening (UFW)
-- **Commands Executed:**
-  ```bash
-  ssh root@178.105.49.9 "ufw allow 51820/udp comment 'NetBird WireGuard P2P'"
-  ssh root@178.105.49.9 "ufw allow 3478/udp comment 'NetBird Coturn STUN/TURN'"
-  ssh root@178.105.49.9 "ufw allow 3478/tcp comment 'NetBird Coturn TURN TCP'"
-  ssh root@178.105.49.9 "ufw allow 10000/tcp comment 'NetBird Signal gRPC'"
-  ssh root@178.105.49.9 "ufw allow 33073/tcp comment 'NetBird Management gRPC'"
-  ssh root@178.105.49.9 "ufw status verbose"
-  ```
-- **Output Log:**
-  ```text
-  Status: active
-  To                         Action      From
-  --                         ------      ----
-  51820/udp                  ALLOW IN    Anywhere                   # NetBird WireGuard P2P
-  3478/udp                   ALLOW IN    Anywhere                   # NetBird Coturn STUN/TURN
-  3478/tcp                   ALLOW IN    Anywhere                   # NetBird Coturn TURN TCP
-  10000/tcp                  ALLOW IN    Anywhere                   # NetBird Signal gRPC
-  33073/tcp                  ALLOW IN    Anywhere                   # NetBird Management gRPC
-  ```
+### Step 4: Documentation Link Normalization
+- Converted all absolute `file:///` URLs across documentation into valid GitHub relative markdown links (`[text](docs/...)`).
+- Updated repository remote URL to `https://github.com/KIF-Office-Workstation/netbird-setup.git`.
 
 ---
 
-### Step 6: Kernel IP Forwarding Audit
-- **Command Executed:**
-  ```bash
-  ssh root@178.105.49.9 "sysctl net.ipv4.ip_forward net.ipv6.conf.all.forwarding"
-  ```
-- **Output Log:**
-  ```text
-  net.ipv4.ip_forward = 1
-  net.ipv6.conf.all.forwarding = 1
-  ```
-
----
-
-### Step 7: Automated Diagnostics Health Check
-- **Command Executed:**
-  ```bash
-  ./scripts/health_check.sh
-  ```
-- **Output Log:**
-  ```text
-  [1/5] Checking NetBird Service Status: NetBird daemon systemd service is ACTIVE.
-  [2/5] NetBird Interface & Peer Status: Daemon status: NeedsLogin.
-  [3/5] Kernel IP Forwarding Check: IPv4 Forwarding is ENABLED.
-  [5/5] Firewall Port Status (UFW): All required NetBird ports OPEN.
-  Health check complete.
-  ```
-
----
-
-## Installation Summary
-
-- **Status:** SUCCESSFULLY INSTALLED & CONFIGURED
-- **Daemon Version:** NetBird `v0.75.0` (Stable)
-- **Firewall:** Hardened with UFW
-- **Routing:** Kernel IP forwarding enabled
+### Step 5: Gitignore & Secret Sanitization
+- Extended `.gitignore` to block `.env.*`, `acme.json`, `setup.env`, `*.db`, `*.sqlite`, `*.pem`, `*.key`, `letsencrypt/`, and backup archives.
+- Confirmed zero hardcoded secrets or setup keys in repository working tree.

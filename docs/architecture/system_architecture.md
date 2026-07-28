@@ -1,24 +1,37 @@
-# NetBird System Architecture & Component Specification
+# NetBird System Architecture & Combined Container Model
 
-This document details the internal architecture, service interactions, signaling protocol, data layer, and network encapsulation model for NetBird.
+This document details the modern combined container architecture of NetBird, component service roles, relay fallback channels, and protocol flow.
 
 ---
 
-## Service Component Breakdown
+## 1. Modern Architecture Overview
+
+NetBird modern deployment consolidates signaling, management, relay, and STUN services into the single `netbirdio/netbird-server` container image.
 
 ```text
 +-------------------------------------------------------------------------+
-|                        NETBIRD CONTROL PLANE                            |
+|                  NETBIRD COMBINED CONTROL PLANE STACK                   |
 |                                                                         |
-|  +------------------+   +-------------------+   +--------------------+  |
-|  |  Dashboard UI    |   | Management API    |   | Signal Service     |  |
-|  | (React / Web)    |   | (gRPC / SQLite)   |   | (Peer Exchange)    |  |
-|  +--------+---------+   +---------+---------+   +---------+----------+  |
-|           |                       |                       |             |
-+-----------|-----------------------|-----------------------|-------------+
-            |                       |                       |
-            +-----------------------+-----------------------+
-                                    | TLS gRPC / HTTPS
+|  +-------------------------+            +----------------------------+  |
+|  |  Dashboard Container    |            | Traefik Reverse Proxy      |  |
+|  | (netbirdio/dashboard)   |            | Ports: 80/tcp, 443/tcp     |  |
+|  +------------+------------+            +-------------+--------------+  |
+|               |                                       |                 |
+|               +-------------------+-------------------+                 |
+|                                   |                                     |
+|                                   v                                     |
+|  +-------------------------------------------------------------------+  |
+|  |  NetBird Combined Server Container (netbirdio/netbird-server)     |  |
+|  |                                                                   |  |
+|  |  [Embedded Management]  - Peer DB, Setup Keys, ACL Rules          |  |
+|  |  [Embedded Signal]      - gRPC Peer Discovery                     |  |
+|  |  [Embedded STUN]        - UDP Port 3478 NAT Hole-Punching          |  |
+|  |  [Embedded Relay]       - WebSocket/QUIC Restrictive NAT Fallback  |  |
+|  |  [Embedded Dex IdP]     - OIDC Authentication                     |  |
+|  +-------------------------------------------------------------------+  |
+|                                                                         |
++-------------------------------------------------------------------------+
+                                    |
                                     v
 +-------------------------------------------------------------------------+
 |                         NETBIRD MESH NETWORK                            |
@@ -30,30 +43,40 @@ This document details the internal architecture, service interactions, signaling
 |       +---------+---------+               +---------+---------+         |
 |                 |                                   |                   |
 |                 +-----------------+  +--------------+                   |
-|                                   |  | STUN / TURN                      |
+|                                   |  | Relay Fallback (Port 443 / 3478) |
 |                                   v  v                                  |
 |                         +-----------------------+                       |
-|                         | Coturn Relay Server   |                       |
-|                         | (Port 3478 UDP/TCP)   |                       |
+|                         | NetBird Server Relay  |                       |
 |                         +-----------------------+                       |
 +-------------------------------------------------------------------------+
 ```
 
 ---
 
-## Detailed Component Specifications
+## 2. Component Service Specifications
 
-1. **Management Service (`netbirdio/management`):**
-   - Central control plane maintaining state, peer registration, setup keys, ACL access control rules, and network routes.
-   - Listens on gRPC port `33073`.
+1. **Traefik Reverse Proxy (`traefik:v3.1`):**
+   Handles incoming HTTP (80) and HTTPS (443) traffic, automates Let's Encrypt TLS issuance, and routes traffic to backend containers:
+   - `/signalexchange.*` & `/management.*` -> gRPC cleartext (`h2c`) to `netbird-server:80`.
+   - `/relay*` & `/ws-proxy/*` -> WebSocket upgrade to `netbird-server:80`.
+   - `/api*` & `/oauth2*` -> HTTP proxy to `netbird-server:80`.
+   - `/*` -> Dashboard UI container `netbird-dashboard:80`.
 
-2. **Signal Service (`netbirdio/signal`):**
-   - High-performance, lightweight signaling server facilitating WireGuard peer endpoint negotiation for NAT hole punching.
-   - Listens on gRPC port `10000`.
+2. **NetBird Server Container (`netbirdio/netbird-server:latest`):**
+   - **Management Engine:** Manages SQLite database (`/var/lib/netbird/management.db`), peer configurations, and setup keys.
+   - **Signal Engine:** Negotiates WireGuard public keys and endpoint IP/port candidate pairs.
+   - **STUN Engine:** Listens on `3478/udp` for NAT IP/port discovery.
+   - **Relay Engine:** Handles encrypted WireGuard packet relay over WebSockets or QUIC when direct P2P connections are obstructed by restrictive enterprise firewalls.
+   - **Embedded Identity Provider (Dex):** Provides OIDC authentication endpoints at `/oauth2`.
 
-3. **Coturn Relay Service (`coturn/coturn`):**
-   - STUN / TURN server used to establish fallback relay channels when direct P2P connections fail due to restrictive NATs.
-   - Listens on UDP/TCP port `3478`.
+3. **NetBird Dashboard (`netbirdio/dashboard:latest`):**
+   Web application interface for managing peers, networks, setup keys, and access control policies.
 
-4. **Dashboard Web Interface (`netbirdio/dashboard`):**
-   - Admin Web UI for visualizing peers, managing setup keys, configuring network routes, and monitoring real-time network state.
+---
+
+## 3. Connectivity & Fallback Hierarchy
+
+1. **Direct WireGuard P2P (Primary Mode):**
+   Peers establish a direct UDP `51820` tunnel using ChaCha20-Poly1305 encryption.
+2. **Relay Fallback (Fallback Mode):**
+   If direct UDP hole-punching fails due to symmetric NAT or firewall blocks, peers fall back to tunneling WireGuard frames through the NetBird Server Relay via HTTPS WebSockets over port `443`.

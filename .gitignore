@@ -1,25 +1,47 @@
-# Ignore secret and credential files
-*.env
-*.env.local
+# NetBird Security & State Exclusion Rules (.gitignore)
+
+# Environment and Secret Files
+.env
+.env.*
+!*.env.example
+setup.env
+*.secret
+
+# Cryptographic Keys, Certificates & Tokens
 *.pem
 *.key
 *.crt
+*.p12
+*.pfx
+*.pub
 id_rsa
 id_ed25519
-*.secret
-secrets.json
-management.json
-state.json
+acme.json
+letsencrypt/
 
-# System & IDE files
+# Databases & Runtime State Files
+*.db
+*.sqlite
+*.sqlite3
+*.state
+management.json
+default.json
+active_profile.json
+service.json
+turnserver.conf
+
+# Archives & Backups
+*.tar
+*.tar.gz
+*.zip
+backups/
+/var/backups/netbird/
+
+# Local & IDE Overrides
+docker-compose.override.yml
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
 *.swp
 *.log
-
-# Docker runtime state
-/var/
-/data/
-/netbird-store/

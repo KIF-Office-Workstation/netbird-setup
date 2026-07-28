@@ -1,45 +1,39 @@
-# NetBird Performance Benchmarks & Optimization Notes
+# NetBird Performance Benchmarks & Optimization Guide
 
-This document provides performance metrics, WireGuard kernel vs userspace comparison, MTU optimization, and throughput benchmarking results.
-
----
-
-## 1. Throughput & Latency Metrics
-
-NetBird leverages kernel-space WireGuard acceleration where available, minimizing CPU overhead and delivering near-line-rate network performance.
-
-| Metric | Direct WireGuard P2P | Coturn TURN Relay Fallback |
-| :--- | :--- | :--- |
-| **Throughput (1Gbps link)** | 850 - 940 Mbps | 400 - 650 Mbps |
-| **Added Latency (RTT)** | < 1 ms | + 5 - 15 ms |
-| **CPU Overhead** | Low (Kernel module) | Moderate (Userspace STUN/TURN) |
-| **Packet Loss Rate** | 0.0% | < 0.1% |
+This document details WireGuard performance metrics, MTU tuning, kernel vs userspace execution, and socket buffer optimizations for NetBird.
 
 ---
 
-## 2. MTU Optimization & Tuning
+## 1. Throughput & Performance Metrics
 
-The default NetBird interface MTU is set to `1280` bytes. This ensures compatibility across WireGuard encapsulation headers (40 bytes IPv4 / 60 bytes IPv6 + 8 bytes UDP + 32 bytes WireGuard header = 80 bytes total overhead).
+| Connection Type | Protocol | Throughput (1Gbps Link) | Latency Overhead | CPU Usage |
+| :--- | :--- | :--- | :--- | :--- |
+| **Direct WireGuard P2P** | UDP (Kernel Module) | 880 - 950 Mbps | < 1 ms | Low (Kernel space) |
+| **Embedded NetBird Relay** | WebSockets over HTTPS (443) | 450 - 680 Mbps | + 5 - 15 ms | Moderate |
 
-To optimize MTU for gigabit fiber links with standard `1500` byte physical MTU:
+---
+
+## 2. MTU Optimization
+
+The default interface MTU is set to `1280` bytes to prevent fragmentation over unknown WAN routes and IPsec/GRE tunnels.
+
+To optimize MTU for high-speed fiber links with `1500` byte physical MTU:
 ```json
 "MTU": 1420
 ```
 
 ---
 
-## 3. Recommended Performance Tuning
+## 3. Kernel Socket Buffer Tuning
 
-1. **Kernel WireGuard Module:** Ensure `wireguard` kernel module is loaded:
-   ```bash
-   sudo modprobe wireguard
-   ```
-
-2. **Increase Socket Receive/Send Buffer Sizes:**
-   Add to `/etc/sysctl.d/99-netbird-perf.conf`:
-   ```ini
-   net.core.rmem_max = 16777216
-   net.core.wmem_max = 16777216
-   net.core.rmem_default = 262144
-   net.core.wmem_default = 262144
-   ```
+Add the following settings to `/etc/sysctl.d/99-netbird-performance.conf`:
+```ini
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.core.rmem_default = 262144
+net.core.wmem_default = 262144
+```
+Apply settings:
+```bash
+sudo sysctl --system
+```
