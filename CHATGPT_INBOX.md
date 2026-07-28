@@ -56,6 +56,21 @@
 - **Instruction / response:** Execute NetBird Windows Client installation, verify `Netbird` service, complete SSO authentication, and verify `Connected` state.
 - **Scope:** Local Windows 10 host & `netbird-setup` repository.
 - **Approval:** Explicit user directive.
-- **Agent result:** NetBird Windows Client v0.75.1 successfully installed and authenticated. `Netbird` Windows Service registered (`Automatic` startup) and `Running`. SSO authentication complete: `Management: Connected`, `Signal: Connected`, NetBird IPv4 `100.91.125.54/16`, FQDN `desktop-r9oacqd.netbird.cloud`.
+- **Agent result:** NetBird Windows Client v0.75.1 successfully installed and authenticated. `Netbird` Windows Service registered (`Automatic` startup) and `Running`. SSO authentication complete: `Management: Connected`, `Signal: Connected`, NetBird IPv4 `100.91.125.54/16`, FQDN `kif.netbird.cloud`.
 - **Evidence:** `reports/20260728_162945_NETBIRD_WINDOWS_CLIENT_VERIFIED_COMPLETION.md`, `scripts/install_netbird_client.ps1`, `AGENT_STATUS.md`.
 - **Processed at:** 2026-07-28 16:29 +03:00
+
+---
+
+## INBOX-20260728-006 — Central Workstation Inventory Migration & Governance Correction
+
+- **Status:** `PROCESSED`
+- **Created by:** User / Reviewing Agent
+- **Created at:** 2026-07-28 20:44 +03:00
+- **Instruction / response:** Migrate workstation technical inventory files to central organization repository `.github/workstation-inventory/`. Create central README enforcing agent policy, generate central migration report, update central `.github/README.md`, update `.github/AGENT_NOTES.md` resolving legacy Hetzner blocker note (`NOTE-20260728-001`), update local repository references, and push changes to GitHub `main`.
+- **Scope:** Central `.github/` repository and `netbird-setup` repository.
+- **Approval:** Explicit user directive.
+- **Agent result:** Central migration 100% completed. Inventory files migrated to `.github/workstation-inventory/`. Central README policy created. Central `.github/README.md` updated. Legacy Hetzner blocker note resolved in `.github/AGENT_NOTES.md`. Local `netbird-setup` files updated as read-only legacy references.
+- **Evidence:** `.github/workstation-inventory/README.md`, `.github/workstation-inventory/KIF_WORKSTATION_FULL_INVENTORY.md`, `.github/workstation-inventory/KIF_WORKSTATION_FULL_INVENTORY.json`, `.github/workstation-inventory/reports/20260728_204421_CENTRAL_INVENTORY_MIGRATION.md`, `.github/AGENT_NOTES.md`.
+- **Processed at:** 2026-07-28 20:44 +03:00
+- **Remaining work:** None
