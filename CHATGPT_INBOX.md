@@ -48,15 +48,14 @@
 
 ---
 
-## INBOX-20260728-005 — NetBird Windows Client Installation & Authentication Trigger
+## INBOX-20260728-005 — NetBird Windows Client Installation & Verification
 
-- **Status:** `AWAITING_USER`
+- **Status:** `PROCESSED`
 - **Created by:** Antigravity AI
 - **Created at:** 2026-07-28 16:22 +03:00
-- **Instruction / response:** Execute NetBird Windows Client installation, verify `Netbird` service, and trigger interactive SSO authentication flow.
+- **Instruction / response:** Execute NetBird Windows Client installation, verify `Netbird` service, complete SSO authentication, and verify `Connected` state.
 - **Scope:** Local Windows 10 host & `netbird-setup` repository.
 - **Approval:** Explicit user directive.
-- **Agent result:** NetBird Windows Client v0.75.1 successfully installed at `C:\Program Files\NetBird\netbird.exe`. `Netbird` Windows Service registered and `Running`. Executed `netbird up` to trigger browser SSO login flow.
-- **Evidence:** `reports/20260728_162243_NETBIRD_WINDOWS_CLIENT_PROGRESS.md`, `scripts/install_netbird_client.ps1`, `AGENT_STATUS.md`.
-- **Processed at:** 2026-07-28 16:22 +03:00
-- **Remaining work:** User must complete NetBird browser authentication on the Office Workstation.
+- **Agent result:** NetBird Windows Client v0.75.1 successfully installed and authenticated. `Netbird` Windows Service registered (`Automatic` startup) and `Running`. SSO authentication complete: `Management: Connected`, `Signal: Connected`, NetBird IPv4 `100.91.125.54/16`, FQDN `desktop-r9oacqd.netbird.cloud`.
+- **Evidence:** `reports/20260728_162945_NETBIRD_WINDOWS_CLIENT_VERIFIED_COMPLETION.md`, `scripts/install_netbird_client.ps1`, `AGENT_STATUS.md`.
+- **Processed at:** 2026-07-28 16:29 +03:00
