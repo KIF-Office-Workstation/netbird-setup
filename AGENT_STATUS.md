@@ -11,7 +11,7 @@
 - **Last completed action:** Created `.github/AGENT_NOTES.md` escalation note `NOTE-20260728-001`, uploaded tracked report `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`, updated `AGENT_STATUS.md`, and marked inbox items `INBOX-20260728-002` & `INBOX-20260728-003` as `PROCESSED`.
 - **Verification result:** Theoretical repository inspection & script syntax check (`bash -n`) PASSED. Live Docker daemon execution, container runtime health, web dashboard access, and peer mesh connectivity testing are NOT executed and NOT verified.
 - **Next automatic action:** Await user decision / Hetzner staging server access authorization for live container deployment.
-- **Latest control commit:** `5262e19`
+- **Latest control commit:** `f3fcc6b`
 
 ## Requests / blockers
 

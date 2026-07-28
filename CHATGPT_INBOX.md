@@ -43,6 +43,7 @@
 - **Scope:** Documentation and communication records in `netbird-setup` and `.github/AGENT_NOTES.md`.
 - **Approval:** Authorized under existing documentation & control instructions.
 - **Agent result:** Uploaded sanitized report to `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`, created `.github/AGENT_NOTES.md` note `NOTE-20260728-001`, and updated `AGENT_STATUS.md` to `COMPLETE_PENDING_REVIEW` with unverified live Docker deployment explicitly declared.
+- **Commit SHA:** `f3fcc6b`
 - **Evidence:** Tracked report `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`, escalation file `.github/AGENT_NOTES.md`, and `AGENT_STATUS.md`.
 - **Processed at:** 2026-07-28 15:50 +03:00
 
