@@ -15,7 +15,7 @@
 - **Target Resolution / FPS:** `1920x1080` @ 60 FPS
 - **Desktop Application:** Active
 - **Moonlight Client Pairing:** `PENDING_CLIENT_TEST`
-- **Latest control commit:** Will be updated after git push
+- **Latest control commit:** `c96fa7b`
 
 ## Requests / blockers
 
