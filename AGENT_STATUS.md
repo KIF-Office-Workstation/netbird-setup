@@ -12,7 +12,7 @@
 - **Last completed action:** Realigned project scope strictly to NetBird Windows Client setup for the Office Workstation (Windows 10 Pro 24/7 node). Archived out-of-scope server templates, generated scope correction audit report, updated `PROJECT_MANIFEST.md`, `README.md`, `.github/AGENT_NOTES.md`, and created `scripts/install_netbird_client.ps1`.
 - **Verification result:** Host diagnostic check PASSED (Confirmed NetBird is NOT INSTALLED; 0 leftover configs found). PowerShell installer verified in `-InspectOnly` mode.
 - **Next automatic action:** Await user provision of NetBird Setup Key or execution of installer to launch interactive GUI/CLI authentication.
-- **Latest control commit:** Will be recorded upon git push
+- **Latest control commit:** `47d200e`
 
 ## Requests / blockers
 
