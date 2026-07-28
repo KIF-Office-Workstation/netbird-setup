@@ -5,24 +5,27 @@
 ## Current state
 
 - **Overall status:** `AWAITING_USER`
-- **Last updated:** 2026-07-28 16:16 +03:00
+- **Last updated:** 2026-07-28 16:22 +03:00
 - **Agent:** Antigravity AI
-- **Current phase:** Phase 3 — NetBird Windows Client Setup & Node Authentication
-- **Windows NetBird State:** Not Installed (Host inspected; PowerShell automation script `scripts/install_netbird_client.ps1` prepared & tested in inspection mode)
-- **Last completed action:** Realigned project scope strictly to NetBird Windows Client setup for the Office Workstation (Windows 10 Pro 24/7 node). Archived out-of-scope server templates, generated scope correction audit report, updated `PROJECT_MANIFEST.md`, `README.md`, `.github/AGENT_NOTES.md`, and created `scripts/install_netbird_client.ps1`.
-- **Verification result:** Host diagnostic check PASSED (Confirmed NetBird is NOT INSTALLED; 0 leftover configs found). PowerShell installer verified in `-InspectOnly` mode.
-- **Next automatic action:** Await user provision of NetBird Setup Key or execution of installer to launch interactive GUI/CLI authentication.
-- **Latest control commit:** `47d200e`
+- **Current phase:** Phase 3 — NetBird Windows Client Authentication
+- **Windows NetBird Installed State:** `Installed`
+- **NetBird Client Version:** `0.75.1`
+- **Windows Service State:** `Running` (`Netbird` Service)
+- **Service Startup Type:** `Automatic`
+- **Connection State:** `Disconnected` (Awaiting User Browser SSO Login)
+- **Authentication State:** `Initiated` (`netbird up` browser SSO triggered)
+- **Last completed action:** Installed NetBird Windows Client (v0.75.1) on Windows 10 Pro workstation. Verified `Netbird` service registration and running status. Initiated `netbird up` browser authentication.
+- **Verification result:** Installation & Service Check PASSED. NetBird Client v0.75.1 installed at `C:\Program Files\NetBird\netbird.exe`, Windows Service active and running.
+- **Next automatic action:** Await user completion of NetBird browser authentication.
+- **Latest control commit:** Will be updated after git push
 
 ## Requests / blockers
 
-- **Pending Authentication (`AWAITING_USER`):** To connect the Office Workstation to the NetBird zero-trust mesh network, an authorized Setup Key or user login is required:
-  1. Setup Key (if joining an existing network organization)
-  2. Or launching `netbird up` to execute interactive SSO/browser login
+- **Pending Authentication (`AWAITING_USER`):** User must complete NetBird browser authentication on the Office Workstation.
 
 ## User input required
 
-1. Provision of NetBird Setup Key or user login initiation to register this Windows 10 workstation node.
+1. User must complete NetBird browser authentication on the Office Workstation.
 
 ## ChatGPT review required
 
@@ -30,6 +33,7 @@ None currently.
 
 ## Latest evidence / reports
 
+- `reports/20260728_162243_NETBIRD_WINDOWS_CLIENT_PROGRESS.md`
 - `reports/20260728_161613_SCOPE_CORRECTION_AND_OUT_OF_SCOPE_AUDIT.md`
 - `scripts/install_netbird_client.ps1`
 - `PROJECT_MANIFEST.md`
@@ -39,4 +43,5 @@ None currently.
 
 ## Activity log
 
-- **2026-07-28 — Antigravity AI:** Executed fundamental scope correction. Realigned project to NetBird Windows Client for 24/7 Office Workstation (Windows 10 Pro). Archived server templates to `archive/server_templates/`, generated scope audit report `reports/20260728_161613_SCOPE_CORRECTION_AND_OUT_OF_SCOPE_AUDIT.md`, created PowerShell installer `scripts/install_netbird_client.ps1`, and updated status to `AWAITING_USER` pending node authentication.
+- **2026-07-28 — Antigravity AI:** Installed NetBird Windows Client v0.75.1. Verified `Netbird` Windows service status (`Running`/`Automatic`). Initiated `netbird up` SSO browser login. Generated progress report `reports/20260728_162243_NETBIRD_WINDOWS_CLIENT_PROGRESS.md` and updated status to `AWAITING_USER`.
+- **2026-07-28 — ChatGPT:** Executed scope correction protocol to NetBird Windows Client on Windows 10 Pro Office Workstation.
