@@ -17,7 +17,7 @@
 - **Last completed action:** Completed user SSO browser authentication. Verified `netbird status --detail`: Management & Signal Connected, NetBird IPv4 `100.91.125.54/16` assigned, 4/4 Relays Available, FQDN `desktop-r9oacqd.netbird.cloud` active.
 - **Verification result:** PASSED — 100% Empirically Verified Operational & Connected.
 - **Next automatic action:** Complete. Maintaining native hourly inspection schedule.
-- **Latest control commit:** `b7e6396`
+- **Latest control commit:** `89612ea`
 
 ## Requests / blockers
 
