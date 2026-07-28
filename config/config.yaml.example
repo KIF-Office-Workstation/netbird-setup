@@ -1,0 +1,38 @@
+# NetBird Management Service Configuration (config.yaml.example)
+# Production configuration schema for NetBird Management
+
+StunTurn:
+  # STUN & TURN Relay service settings for NAT Traversal
+  TURNDomain: netbird.example.com
+  TURNMinPort: 49152
+  TURNMaxPort: 65535
+  CredentialsTTL: 86400s
+  Secret: "YOUR_COTURN_SHARED_SECRET_PLACEHOLDER"
+  STUNPorts:
+    - 3478
+  TURNPorts:
+    - 3478
+
+Signal:
+  # NetBird Signal Service gRPC Endpoint
+  Protocol: https
+  URI: netbird.example.com:443
+
+Datastore:
+  # Embedded SQLite datastore (or PostgreSQL connection string for HA cluster)
+  Engine: sqlite
+  File: /var/lib/netbird/management.db
+
+HttpConfig:
+  # API & Management listener endpoints
+  Address: 0.0.0.0:33073
+  AuthIssuer: "https://netbird.example.com/auth"
+  Audience: "netbird-api"
+
+PKI:
+  # Internal PKI for peer certificates
+  CertFile: /var/lib/netbird/management.crt
+  KeyFile: /var/lib/netbird/management.key
+
+LogFile: console
+LogLevel: info

@@ -1,0 +1,100 @@
+# NetBird Self-Hosted Infrastructure Docker Compose Configuration
+# Production-ready stack: Management, Signal, Dashboard, Coturn (STUN/TURN), Traefik
+# Reference: https://docs.netbird.io/selfhosting/getting-started
+
+version: '3.8'
+
+services:
+  # Traefik Reverse Proxy & Let's Encrypt TLS Automation
+  traefik:
+    image: traefik:v3.1
+    container_name: netbird-traefik
+    restart: unless-stopped
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.le.acme.httpchallenge=true"
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.le.acme.email=admin@example.com"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"
+    networks:
+      - netbird-net
+
+  # NetBird Dashboard (Admin Web UI)
+  dashboard:
+    image: netbirdio/dashboard:v0.28.0
+    container_name: netbird-dashboard
+    restart: unless-stopped
+    env_file:
+      - dashboard.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`${NETBIRD_DOMAIN}`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls.certresolver=le"
+      - "traefik.http.services.dashboard.loadbalancer.server.port=80"
+    networks:
+      - netbird-net
+
+  # NetBird Signal Service (Peer Discovery & Signaling)
+  signal:
+    image: netbirdio/signal:v0.28.0
+    container_name: netbird-signal
+    restart: unless-stopped
+    volumes:
+      - "./signal.state:/var/lib/netbird"
+    ports:
+      - "10000:10000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.signal.rule=Host(`${NETBIRD_DOMAIN}`) && PathPrefix(`/signalexchange.SignalExchange/`)"
+      - "traefik.http.routers.signal.entrypoints=websecure"
+      - "traefik.http.routers.signal.tls.certresolver=le"
+      - "traefik.http.routers.signal.service=signal"
+      - "traefik.http.services.signal.loadbalancer.server.port=10000"
+      - "traefik.http.services.signal.loadbalancer.server.scheme=h2c"
+    networks:
+      - netbird-net
+
+  # NetBird Management Service (Peer DB, Rules, Keys, gRPC API)
+  management:
+    image: netbirdio/management:v0.28.0
+    container_name: netbird-management
+    restart: unless-stopped
+    volumes:
+      - "./config.yaml:/etc/netbird/config.yaml"
+      - "./management.state:/var/lib/netbird"
+    ports:
+      - "33073:33073"
+    command: ["--config", "/etc/netbird/config.yaml"]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.management.rule=Host(`${NETBIRD_DOMAIN}`) && (PathPrefix(`/management.ManagementService/`) || PathPrefix(`/api`))"
+      - "traefik.http.routers.management.entrypoints=websecure"
+      - "traefik.http.routers.management.tls.certresolver=le"
+      - "traefik.http.services.management.loadbalancer.server.port=33073"
+      - "traefik.http.services.management.loadbalancer.server.scheme=h2c"
+    networks:
+      - netbird-net
+
+  # Coturn (STUN / TURN Relay Service for NAT Traversal)
+  coturn:
+    image: coturn/coturn:4.6.2
+    container_name: netbird-coturn
+    restart: unless-stopped
+    domainname: ${NETBIRD_DOMAIN}
+    volumes:
+      - "./turnserver.conf:/etc/turnserver.conf:ro"
+    network_mode: host
+
+networks:
+  netbird-net:
+    driver: bridge

@@ -1,0 +1,25 @@
+# Ignore secret and credential files
+*.env
+*.env.local
+*.pem
+*.key
+*.crt
+id_rsa
+id_ed25519
+*.secret
+secrets.json
+management.json
+state.json
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.log
+
+# Docker runtime state
+/var/
+/data/
+/netbird-store/

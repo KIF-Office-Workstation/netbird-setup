@@ -1,0 +1,23 @@
+# NetBird Client Profile Configuration (netbird-client.cfg.example)
+# Location: /var/lib/netbird/default.json (Linux) or C:\ProgramData\NetBird\config.json (Windows)
+
+{
+    "WgIface": "wt0",
+    "WgPort": 51820,
+    "ManagementURL": {
+        "Scheme": "https",
+        "Host": "api.netbird.io:443"
+    },
+    "AdminURL": {
+        "Scheme": "https",
+        "Host": "app.netbird.io:443"
+    },
+    "DisableIPv6Discovery": false,
+    "RosenpassEnabled": false,
+    "ServerSSHAllowed": false,
+    "DisableClientRoutes": false,
+    "DisableServerRoutes": false,
+    "DisableDNS": false,
+    "DisableFirewall": false,
+    "MTU": 1280
+}
