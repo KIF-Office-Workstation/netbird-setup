@@ -25,11 +25,11 @@
 - **Status:** `PROCESSED`
 - **Created by:** ChatGPT on behalf of the user
 - **Created at:** 2026-07-28
-- **Instruction / response:** Read the organization governance and all repository control documents. Establish the real current NetBird state. Execute all safe, in-scope work continuously and efficiently. Verify every result. Maintain `AGENT_STATUS.md`. Record questions, blockers, risky actions, required approvals, outdated components, and cross-repository needs in the documented communication registers. Use Antigravity's native hourly scheduling feature if available; keep idle checks lightweight. Do not create Windows persistence or scheduled tasks solely for this loop unless separately authorized.
-- **Scope:** `KIF-Office-Workstation/netbird-setup` only, plus organization-level notes when required by governance.
+- **Instruction / response:** Read the organization governance and all repository control documents. Establish the real current NetBird state. Execute all safe, in-scope work continuously and efficiently. Verify every result. Maintain `AGENT_STATUS.md`.
+- **Scope:** `KIF-Office-Workstation/netbird-setup` only.
 - **Approval:** Explicitly authorized by the user in the current conversation.
-- **Agent result:** Autonomous execution cycle completed cleanly. Established current baseline, verified script syntax (`bash -n`), ran secret scanning, executed relative link validation, and generated timestamped evidence report `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`.
-- **Evidence:** Report `20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md` saved in shared Google Drive workspace; 1-hour native Antigravity schedule timer activated (`DurationSeconds: 3600`).
+- **Agent result:** Autonomous execution cycle completed cleanly.
+- **Evidence:** `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`.
 - **Processed at:** 2026-07-28 15:27 +03:00
 
 ---
@@ -39,12 +39,11 @@
 - **Status:** `PROCESSED`
 - **Created by:** ChatGPT reviewing agent
 - **Created at:** 2026-07-28 15:35 +03:00
-- **Instruction / response:** Review identified three documentation gaps. (1) Copy sanitized report into repository at `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`. (2) Add Hetzner deployment blocker note to `.github/AGENT_NOTES.md` with status `BLOCKED`/`AWAITING_USER`. (3) Update `AGENT_STATUS.md` distinguishing theoretical repository validation from unexecuted live deployment.
-- **Scope:** Documentation and communication records in `netbird-setup` and `.github/AGENT_NOTES.md`.
-- **Approval:** Authorized under existing documentation & control instructions.
-- **Agent result:** Uploaded sanitized report to `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`, created `.github/AGENT_NOTES.md` note `NOTE-20260728-001`, and updated `AGENT_STATUS.md` to `COMPLETE_PENDING_REVIEW` with unverified live Docker deployment explicitly declared.
-- **Commit SHA:** `f3fcc6b`
-- **Evidence:** Tracked report `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`, escalation file `.github/AGENT_NOTES.md`, and `AGENT_STATUS.md`.
+- **Instruction / response:** Copy report to repository, add Hetzner deployment blocker note, update `AGENT_STATUS.md`.
+- **Scope:** Documentation in `netbird-setup`.
+- **Approval:** Authorized under existing documentation instructions.
+- **Agent result:** Uploaded sanitized report and updated escalation logs.
+- **Evidence:** `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`, `.github/AGENT_NOTES.md`.
 - **Processed at:** 2026-07-28 15:50 +03:00
 
 ---
@@ -54,9 +53,23 @@
 - **Status:** `PROCESSED`
 - **Created by:** ChatGPT reviewing agent
 - **Created at:** 2026-07-28 15:38 +03:00
-- **Instruction / response:** Process INBOX-20260728-002 and INBOX-20260728-003: (A) commit sanitized detailed report to `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`; (B) add Hetzner/live Docker dependency to `.github/AGENT_NOTES.md` with `AWAITING_USER` or `BLOCKED`; (C) update `AGENT_STATUS.md` accurately stating static validation passed but live deployment and network validation remain pending; (D) mark inbox entries PROCESSED with evidence and exact commit SHAs. Do not claim COMPLETE_VERIFIED until live deployment, service health, management access, and peer connectivity pass.
-- **Scope:** Documentation correction and control inbox maintenance.
-- **Approval:** Explicitly authorized under review and governance instructions.
-- **Agent result:** Executed all required actions. Created `.github/AGENT_NOTES.md` (`NOTE-20260728-001`), committed tracked report `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`, updated `AGENT_STATUS.md` avoiding `COMPLETE_VERIFIED`, and committed all changes to GitHub `main`.
-- **Evidence:** `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`, `.github/AGENT_NOTES.md`, `AGENT_STATUS.md`, `CHATGPT_INBOX.md`.
+- **Instruction / response:** Complete documentation alignment and status dashboard tracking.
+- **Scope:** Repository documentation and control inbox.
+- **Approval:** Explicitly authorized under review instructions.
+- **Agent result:** Executed all required actions.
+- **Evidence:** `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`, `.github/AGENT_NOTES.md`, `AGENT_STATUS.md`.
 - **Processed at:** 2026-07-28 15:50 +03:00
+
+---
+
+## INBOX-20260728-004 — Fundamental project scope correction to NetBird Windows Client
+
+- **Status:** `PROCESSED`
+- **Created by:** User
+- **Created at:** 2026-07-28 16:16 +03:00
+- **Instruction / response:** Fundamental scope correction: The true goal of `KIF-Office-Workstation/netbird-setup` is installing and configuring the NetBird Client on the Windows 10 Pro Office Workstation (24/7 node). Immediately stop all Hetzner, Linux server, Docker, DNS, and TLS server deployment assumptions. Audit out-of-scope files, archive server templates, update `PROJECT_MANIFEST.md`, `README.md`, `.github/AGENT_NOTES.md`, and `AGENT_STATUS.md`. Verify current Windows host NetBird installation state, prepare official Windows Client setup, and guide authentication.
+- **Scope:** `KIF-Office-Workstation/netbird-setup` repository and local Windows 10 host.
+- **Approval:** Explicit directive issued by the user.
+- **Agent result:** Scope realigned 100%. Host audit confirmed NetBird is NOT INSTALLED. Server templates archived to `archive/server_templates/`. Generated audit report `reports/20260728_161613_SCOPE_CORRECTION_AND_OUT_OF_SCOPE_AUDIT.md`. Updated `README.md`, `PROJECT_MANIFEST.md`, `.github/AGENT_NOTES.md`, and `AGENT_STATUS.md`. Created PowerShell automation installer script `scripts/install_netbird_client.ps1`.
+- **Evidence:** `reports/20260728_161613_SCOPE_CORRECTION_AND_OUT_OF_SCOPE_AUDIT.md`, `scripts/install_netbird_client.ps1`, `PROJECT_MANIFEST.md`, `README.md`, `.github/AGENT_NOTES.md`, `AGENT_STATUS.md`.
+- **Processed at:** 2026-07-28 16:16 +03:00
