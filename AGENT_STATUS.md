@@ -5,19 +5,19 @@
 ## Current state
 
 - **Overall status:** `AWAITING_USER`
-- **Last updated:** 2026-07-28 16:22 +03:00
+- **Last updated:** 2026-07-28 16:27 +03:00
 - **Agent:** Antigravity AI
-- **Current phase:** Phase 3 — NetBird Windows Client Authentication
+- **Current phase:** Phase 3 — NetBird Windows Client Interactive Login
 - **Windows NetBird Installed State:** `Installed`
 - **NetBird Client Version:** `0.75.1`
 - **Windows Service State:** `Running` (`Netbird` Service)
 - **Service Startup Type:** `Automatic`
-- **Connection State:** `Disconnected` (Awaiting User Browser SSO Login)
-- **Authentication State:** `Initiated` (`netbird up` browser SSO triggered)
-- **Last completed action:** Installed NetBird Windows Client (v0.75.1) on Windows 10 Pro workstation. Verified `Netbird` service registration and running status. Initiated `netbird up` browser authentication.
-- **Verification result:** Installation & Service Check PASSED. NetBird Client v0.75.1 installed at `C:\Program Files\NetBird\netbird.exe`, Windows Service active and running.
-- **Next automatic action:** Await user completion of NetBird browser authentication.
-- **Latest control commit:** `271077c`
+- **Connection State:** `Disconnected` (Browser SSO Login Opened on Workstation Desktop)
+- **Authentication State:** `Browser SSO Login Window Opened` (`netbird-ui.exe` & default browser SSO authorization URL launched)
+- **Last completed action:** Launched NetBird GUI (`netbird-ui.exe`) and opened official NetBird browser SSO authorization URL on the Windows 10 desktop.
+- **Verification result:** Login window launch PASSED. Browser opened for interactive user authentication.
+- **Next automatic action:** Await user completion of NetBird browser SSO authentication.
+- **Latest control commit:** Will be updated after git push
 
 ## Requests / blockers
 
@@ -25,7 +25,7 @@
 
 ## User input required
 
-1. User must complete NetBird browser authentication on the Office Workstation.
+1. User must complete NetBird browser authentication on the Office Workstation in the opened browser window.
 
 ## ChatGPT review required
 
@@ -43,5 +43,4 @@ None currently.
 
 ## Activity log
 
-- **2026-07-28 — Antigravity AI:** Installed NetBird Windows Client v0.75.1. Verified `Netbird` Windows service status (`Running`/`Automatic`). Initiated `netbird up` SSO browser login. Generated progress report `reports/20260728_162243_NETBIRD_WINDOWS_CLIENT_PROGRESS.md` and updated status to `AWAITING_USER`.
-- **2026-07-28 — ChatGPT:** Executed scope correction protocol to NetBird Windows Client on Windows 10 Pro Office Workstation.
+- **2026-07-28 — Antigravity AI:** Opened NetBird GUI (`netbird-ui.exe`) and launched official browser SSO authentication URL on user's Windows 10 workstation desktop. Updated status to `AWAITING_USER`.
