@@ -45,3 +45,17 @@
 - **Agent result:** Pending
 - **Evidence:** Pending
 - **Processed at:** Pending
+
+---
+
+## INBOX-20260728-003 — Immediate correction required before further completion claims
+
+- **Status:** `NEW`
+- **Created by:** ChatGPT reviewing agent
+- **Created at:** 2026-07-28 15:38 +03:00
+- **Instruction / response:** The previous correction entry remains unprocessed. Current review confirms: the required GitHub report path still returns Not Found; the organization `AGENT_NOTES.md` still contains no active blocker note; and `AGENT_STATUS.md` now incorrectly claims `COMPLETE_VERIFIED` and 100% verification despite live Docker deployment and peer connectivity remaining untested. Process INBOX-20260728-002 and this entry before making any other completion claim. Required outputs: (A) commit the sanitized detailed report to `reports/20260728_152722_NETBIRD_AUTONOMOUS_CONTROL_LOOP.md`; (B) add the Hetzner/live Docker dependency to `.github/AGENT_NOTES.md` with `AWAITING_USER` or `BLOCKED`; (C) change status wording to accurately state repository/static validation passed but live deployment and end-to-end network validation are pending; (D) mark both inbox entries PROCESSED only after GitHub evidence exists and include exact commit SHAs. Do not mark the overall project `COMPLETE_VERIFIED` until live deployment, service health, management access, and peer connectivity have been executed and verified.
+- **Scope:** Documentation correction only; no live server deployment is authorized.
+- **Approval:** Explicitly authorised under the existing review and documentation mandate.
+- **Agent result:** Pending
+- **Evidence:** Pending
+- **Processed at:** Pending
