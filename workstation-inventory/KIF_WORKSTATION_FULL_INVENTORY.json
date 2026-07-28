@@ -1,0 +1,175 @@
+{
+  "generated_at": "2026-07-28T18:39:43+03:00",
+  "host": {
+    "computer_name": "DESKTOP-R9OACQD",
+    "manufacturer": "Dell Inc.",
+    "model": "OptiPlex 7050",
+    "device_type": "Workstation / Desktop PC",
+    "role": "24/7 Office Workstation Node"
+  },
+  "windows": {
+    "edition": "Microsoft Windows 10 Pro",
+    "version": "10.0.19045",
+    "build_number": "19045",
+    "architecture": "64-bit",
+    "powershell_version": "5.1.19041.6456",
+    "hyper_v_capability": "Available",
+    "wsl_availability": "Available (WSL2 Kernel 6.18.33.2)",
+    "bitlocker_state": "Disabled"
+  },
+  "cpu": {
+    "manufacturer": "Intel",
+    "full_name": "Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz",
+    "generation": "7th Gen (Kaby Lake)",
+    "architecture": "x86_64",
+    "physical_cores": 4,
+    "logical_processors": 8,
+    "base_clock_ghz": 3.60,
+    "max_clock_ghz": 4.20,
+    "l2_cache_mb": 1,
+    "l3_cache_mb": 8,
+    "virtualization_firmware_enabled": true,
+    "instruction_extensions": ["AVX", "AVX2", "AES-NI", "VT-x", "EPT"]
+  },
+  "motherboard": {
+    "manufacturer": "Dell Inc.",
+    "model": "0XHGV1",
+    "chipset": "Intel Q270 Express"
+  },
+  "bios": {
+    "manufacturer": "Dell Inc.",
+    "version": "1.27.0",
+    "release_date": "2023-09-18",
+    "boot_mode": "UEFI",
+    "secure_boot": "Enabled"
+  },
+  "tpm": {
+    "presence": true,
+    "version": "2.0",
+    "status": "Ready"
+  },
+  "memory": {
+    "total_ram_gb": 19.73,
+    "used_ram_gb": 10.48,
+    "free_ram_gb": 9.25,
+    "memory_type": "DDR4",
+    "speed_mhz": 2400,
+    "channel_mode": "Dual Channel"
+  },
+  "gpu": [
+    {
+      "name": "Intel(R) HD Graphics 630",
+      "type": "Integrated",
+      "driver_version": "30.0.101.1692",
+      "quick_sync_video": true,
+      "codecs_supported": ["H.264", "HEVC 8-bit/10-bit"],
+      "sunshine_primary_encoder": "Intel Quick Sync (QSV)"
+    },
+    {
+      "name": "NVIDIA GeForce 210",
+      "type": "Dedicated (Legacy)",
+      "dedicated_vram_mb": 1024,
+      "driver_version": "21.21.13.4201",
+      "nvenc_supported": false,
+      "note": "Legacy card; not recommended for NVENC encoding."
+    }
+  ],
+  "monitors": [
+    {
+      "monitor_count": 1,
+      "display_name": "Generic PnP Monitor",
+      "current_resolution": "1920x1080",
+      "refresh_rate_hz": 60,
+      "primary": true
+    }
+  ],
+  "storage": {
+    "physical_disks": [
+      {
+        "disk_number": 0,
+        "model": "KINGSTON SUV400S37240G",
+        "type": "SATA SSD",
+        "capacity_gb": 240,
+        "serial_suffix": "37240G",
+        "assigned_role": "Windows OS System Drive C:"
+      },
+      {
+        "disk_number": 1,
+        "model": "ST1000DM010-2EP102",
+        "type": "HDD (7200 RPM)",
+        "capacity_gb": 1000,
+        "serial_suffix": "P102",
+        "assigned_role": "Projects & Data Storage Drive D:"
+      }
+    ],
+    "volumes": [
+      {
+        "drive_letter": "C:",
+        "file_system": "NTFS",
+        "total_gb": 222.8,
+        "free_gb": 45.2,
+        "bitlocker": "Disabled"
+      },
+      {
+        "drive_letter": "D:",
+        "file_system": "NTFS",
+        "total_gb": 931.5,
+        "free_gb": 412.8,
+        "bitlocker": "Disabled"
+      }
+    ]
+  },
+  "network": {
+    "adapters": [
+      {
+        "name": "Ethernet",
+        "type": "Gigabit Ethernet (1000 Mbps)",
+        "status": "Up"
+      }
+    ],
+    "netbird": {
+      "installed": true,
+      "version": "0.75.1",
+      "service_status": "Running",
+      "connection_status": "Connected",
+      "ip_address": "100.91.125.54/16",
+      "fqdn": "desktop-r9oacqd.netbird.cloud"
+    }
+  },
+  "remote_access": {
+    "chrome_remote_desktop": "Installed / Running",
+    "netbird": "Installed / Connected",
+    "sunshine": "Not Installed",
+    "moonlight": "Not Installed",
+    "rustdesk": "Not Installed"
+  },
+  "sunshine_readiness": {
+    "compatible": "Yes (Conditional)",
+    "best_encoder": "Intel Quick Sync Video (QSV)",
+    "recommended_resolution": "1080p (1920x1080)",
+    "recommended_fps": 60,
+    "recommended_bitrate_mbps": "15-25 Mbps",
+    "headless_risk": "Medium (Virtual Display Driver recommended for headless operation)"
+  },
+  "workload_assessment": {
+    "google_antigravity": "EXCELLENT",
+    "claude_code": "EXCELLENT",
+    "vscode_development": "EXCELLENT",
+    "nextjs_fullstack": "EXCELLENT",
+    "docker_desktop": "GOOD",
+    "wsl2_ubuntu": "EXCELLENT",
+    "supabase_local": "GOOD",
+    "small_local_llm_cpu": "ACCEPTABLE",
+    "sunshine_streaming": "GOOD (via Intel QSV)"
+  },
+  "upgrade_recommendations": [
+    {
+      "priority": "MEDIUM",
+      "item": "512 GB / 1 TB NVMe SSD Upgrade for System Drive C:",
+      "benefit": "Faster OS boot, Docker layer caching, and WSL build performance."
+    }
+  ],
+  "warnings": [],
+  "unknown_items": [],
+  "user_action_required": []
+}
