@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "project": "netbird-setup",
+  "kind": "workstation",
+  "updated_at": "2026-08-02T15:17:31+03:00",
+  "health": "green",
+  "summary": "NetBird Windows Client setup and zero-trust mesh connectivity verified operational on workstation node.",
+  "needs_owner": [],
+  "blockers": [],
+  "next": "Maintain native hourly inspection schedule and client profile backups.",
+  "live_url": null,
+  "links": {
+    "repo": "https://github.com/KIF-Office-Workstation/netbird-setup"
+  }
+}
