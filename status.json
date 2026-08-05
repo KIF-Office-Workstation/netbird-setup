@@ -5,10 +5,10 @@
   "tier": "D",
   "updated_at": "2026-08-05T06:09:47Z",
   "health": "green",
-  "summary": "NetBird client and gateway were last verified operational; the owner has honorably frozen this workstation setup project.",
+  "summary": "عميل NetBird والبوابة كانا يعملان في آخر تحقق؛ المالك جمّد مشروع إعداد الجهاز هذا بشرف.",
   "needs_owner": [],
   "blockers": [],
-  "next": "No active work; reassess only if the owner resumes the project or reports a connectivity issue.",
+  "next": "لا عمل نشط؛ تُعاد المراجعة فقط إذا استأنف المالك المشروع أو ظهرت مشكلة اتصال.",
   "live_url": null,
   "links": {
     "repo": "https://github.com/KIF-Office-Workstation/netbird-setup"
